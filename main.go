@@ -61,6 +61,9 @@ func main() {
 
 	http.HandleFunc("/artists", GetArtists)
 
+	fs := http.FileServer(http.Dir("static"))
+	http.Handle("/static/", http.StripPrefix("/static", fs))
+
 	fmt.Println("Listening on :8001...")
 	http.ListenAndServe(":8001", nil)
 }
