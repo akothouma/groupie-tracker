@@ -3,3 +3,29 @@
     padding: 0;
     box-sizing: border-box;
 }
+
+.artist-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 16px; /* Adjusts the space between the cards */
+    padding: 20px; /* Optional padding around the grid */
+}
+
+.artist-card {
+    background-color: #f9f9f9; /* Light background for cards */
+    border: 1px solid #ddd; /* Light border */
+    border-radius: 8px; /* Rounded corners */
+    padding: 16px; /* Inner padding for cards */
+    text-align: center; /* Center text in cards */
+    transition: transform 0.3s; /* Smooth scaling effect on hover */
+}
+
+.artist-card img {
+    max-width: 100%; /* Ensure images are responsive */
+    height: auto; /* Maintain aspect ratio */
+    border-radius: 4px; /* Optional rounding for images */
+}
+
+.artist-card:hover {
+    transform: scale(1.05); /* Slightly scale up on hover */
+}
