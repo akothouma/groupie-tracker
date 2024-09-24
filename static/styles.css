@@ -9,6 +9,12 @@ body {
     background-color: #331d2c;
 }
 
+.artists-heading {
+    text-align: center;
+    margin-top: 70px;
+    text-transform: capitalize;
+}
+
 .artist-cards {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
