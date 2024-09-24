@@ -1,25 +1,25 @@
 <!DOCTYPE html>
 <html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Artists</title>
+        <link rel="stylesheet" href="/static/styles.css" />
+    </head>
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Artists</title>
-    <link rel="stylesheet" href="/static/styles.css">
-</head>
+    <body>
+        <h1>these are artists</h1>
 
-<body>
-    <h1>these are artists</h1>
-
-    <div class="artist-cards">
-        {{ range . }}
-        <div class="artist-card">
-            <img src="{{.Image}}" alt="">
-            <p>{{ .Name }}</p>
-            <p>Started in: {{ .CreationDate }}</p>
+        <div class="artist-cards">
+            {{ range . }}
+            <div class="artist-card">
+                <img src="{{.Image}}" alt="" />
+                <div class="card-texts">
+                    <p>{{ .Name }}</p>
+                    <p>Started in: {{ .CreationDate }}</p>
+                </div>
+            </div>
+            {{ end }}
         </div>
-        {{ end }}
-    </div>
-</body>
-
+    </body>
 </html>
