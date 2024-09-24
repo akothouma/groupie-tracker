@@ -19,7 +19,7 @@ body {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
     gap: 25px;
-    padding: 10% 20%;
+    padding: 70px 20%;
 }
 
 .artist-card {
@@ -31,6 +31,10 @@ body {
 
 .card-texts {
     padding: 20px;
+}
+
+.card-date {
+    margin-top: 20px;
 }
 
 .artist-card img {

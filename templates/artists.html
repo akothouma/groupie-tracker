@@ -15,8 +15,8 @@
             <div class="artist-card">
                 <img src="{{.Image}}" alt="" />
                 <div class="card-texts">
-                    <p>{{ .Name }}</p>
-                    <p>Started in: {{ .CreationDate }}</p>
+                    <p class="card-name">{{ .Name }}</p>
+                    <p class="card-date">Started in: {{ .CreationDate }}</p>
                 </div>
             </div>
             {{ end }}
