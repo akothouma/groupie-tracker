@@ -59,7 +59,7 @@ func GetArtists(w http.ResponseWriter, r *http.Request) {
 func main() {
 	templates, _ = templates.ParseGlob(template_dir + "*.html")
 
-	http.HandleFunc("/artists", GetArtists)
+	http.HandleFunc("/", GetArtists)
 
 	fs := http.FileServer(http.Dir("static"))
 	http.Handle("/static/", http.StripPrefix("/static", fs))
