@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"html/template"
 	"io"
+	"log"
 	"net/http"
 )
 
@@ -30,7 +31,8 @@ func Fetch(url string) []byte {
 
 	response, artists_err := http.Get(url)
 	if artists_err != nil {
-		fmt.Println(artists_err)
+		log.Printf("The following error was encountered while making a get request to the groupie tracker api: %s", artists_err)
+		return nil
 	}
 
 	defer response.Body.Close()
@@ -38,7 +40,8 @@ func Fetch(url string) []byte {
 	if response.StatusCode == http.StatusOK {
 		body, body_err = io.ReadAll(response.Body)
 		if body_err != nil {
-			fmt.Println(body_err)
+			log.Printf("The following error was encountered while reading the response body: %s", body_err)
+			return nil
 		}
 	}
 
