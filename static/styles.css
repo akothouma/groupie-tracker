@@ -1,0 +1,49 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    color: #efe1d1;
+}
+
+body {
+    background-color: #331d2c;
+}
+
+.artists-heading {
+    text-align: center;
+    margin-top: 70px;
+    text-transform: capitalize;
+}
+
+.artist-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 25px;
+    padding: 70px 20%;
+}
+
+.artist-card {
+    background-color: #3f2e3e;
+    border: 1px solid #a78295;
+    border-radius: 20px;
+    transition: transform 0.3s;
+}
+
+.card-texts {
+    padding: 20px;
+}
+
+.card-date {
+    margin-top: 20px;
+}
+
+.artist-card img {
+    width: 100%;
+    height: auto;
+    border-top-left-radius: inherit;
+    border-top-right-radius: inherit;
+}
+
+.artist-card:hover {
+    transform: scale(1.05);
+}
