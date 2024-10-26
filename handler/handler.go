@@ -2,6 +2,7 @@ package handler
 
 import (
 	"encoding/json"
+	"fmt"
 	"html/template"
 	"io"
 	"log"
@@ -23,10 +24,14 @@ type Artist struct {
 	CreationDate int      `json:"creationDate"`
 	FirstAlbum   string   `json:"firstAlbum"`
 }
-type locations struct {
+type locationsData struct {
+	Id int    `json:"id"`
 	Locations []string `json:"locations"`
+	Dates string `json:"dates"`
 }
-
+type LocationsResponse struct {
+	Index []locationsData `json:"index"`
+}
 var template_dir = "./web/templates/"
 
 func Fetch(url string) []byte {
@@ -35,7 +40,7 @@ func Fetch(url string) []byte {
 
 	response, artists_err := http.Get(url)
 	if artists_err != nil {
-		log.Fatal("The following error was encountered while making a get request to the groupie tracker api: %s", artists_err)
+		log.Printf("The following error was encountered while making a get request to the groupie tracker api: %s", artists_err)
 		return nil
 	}
 
@@ -54,6 +59,12 @@ func Fetch(url string) []byte {
 
 // GetArtists fetches all the artists from the api and stores them in an array of objects
 func GetArtists(w http.ResponseWriter, r *http.Request) {
+	var err error
+	templates = template.New("")
+	templates, err = templates.ParseGlob(template_dir + "*.html")
+	if err != nil {
+		log.Fatal(err)
+	}
 	artists := []Artist{}
 
 	artists_bytes := Fetch(artists_url)
@@ -64,10 +75,22 @@ func GetArtists(w http.ResponseWriter, r *http.Request) {
 }
 
 func GetLocations(w http.ResponseWriter, r *http.Request) {
-	var locationsSlice locations
+	var err error
+	templates = template.New("")
+	templates, err = templates.ParseGlob(template_dir + "*.html")
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	locationsResponse:= LocationsResponse		{
+		Index: []locationsData{},
+	}
 	fetchedLocations := Fetch(locations_url)
 
-	json.Unmarshal(fetchedLocations, locationsSlice)
-
-	templates.ExecuteTemplate(w, "artists.html", fetchedLocations)
+	err=json.Unmarshal(fetchedLocations, &locationsResponse)
+	if err!= nil {
+        log.Fatal(err)
+    }
+	fmt.Println(locationsResponse.Index)
+	templates.ExecuteTemplate(w, "artistDetails.html", locationsResponse.Index)
 }

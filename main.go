@@ -3,7 +3,6 @@ package main
 import (
 	"fmt"
 	"html/template"
-	"log"
 	"net/http"
 
 	"groupie/handler"
@@ -11,20 +10,22 @@ import (
 
 var (
 	templates    *template.Template
-	template_dir = "/web/templates/"
+	template_dir = "web/templates/"
 )
 
 func main() {
-	// var err error
-	templates, _ = templates.ParseGlob(template_dir + "*.html")
-	
+	var err error
+	templates, err = templates.ParseGlob(template_dir + "*.html")
+	if err!=nil {
+        panic(err)
+    }
+
 	http.HandleFunc("/", handler.GetArtists)
 	http.HandleFunc("/details", handler.GetLocations)
 
+	fs := http.FileServer(http.Dir("./web/static/"))
+	http.Handle("/static/", http.StripPrefix("/static/", fs))
 
-	fs := http.FileServer(http.Dir("/web/static"))
-	http.Handle("/static/", http.StripPrefix("/static", fs))
-	
 	// if err!=nil{
 	// 	log.Fatal(err)
 	// }
