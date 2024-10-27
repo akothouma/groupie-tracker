@@ -7,6 +7,7 @@ import (
 	"io"
 	"log"
 	"net/http"
+	"strconv"
 )
 
 var (
@@ -25,13 +26,14 @@ type Artist struct {
 	FirstAlbum   string   `json:"firstAlbum"`
 }
 type locationsData struct {
-	Id int    `json:"id"`
+	Id        int      `json:"id"`
 	Locations []string `json:"locations"`
-	Dates string `json:"dates"`
+	Dates     string   `json:"dates"`
 }
 type LocationsResponse struct {
 	Index []locationsData `json:"index"`
 }
+
 var template_dir = "./web/templates/"
 
 func Fetch(url string) []byte {
@@ -75,22 +77,48 @@ func GetArtists(w http.ResponseWriter, r *http.Request) {
 }
 
 func GetLocations(w http.ResponseWriter, r *http.Request) {
+	if r.Method != "GET" {
+		http.Error(w, "Invalid request method", http.StatusMethodNotAllowed)
+		return
+	}
+
+	idStr := r.URL.Query().Get("id")
+	if idStr == "" {
+		http.Error(w, "Invalid id", http.StatusBadRequest)
+		return
+	}
 	var err error
+	var id int
+	id, err = strconv.Atoi(idStr)
+	if err != nil {
+		http.Error(w, "Invalid id", http.StatusBadRequest)
+		return
+	}
+
 	templates = template.New("")
 	templates, err = templates.ParseGlob(template_dir + "*.html")
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	locationsResponse:= LocationsResponse		{
+	locationsResponse := LocationsResponse{
 		Index: []locationsData{},
 	}
 	fetchedLocations := Fetch(locations_url)
 
-	err=json.Unmarshal(fetchedLocations, &locationsResponse)
-	if err!= nil {
-        log.Fatal(err)
+	err = json.Unmarshal(fetchedLocations, &locationsResponse)
+	if err != nil {
+		log.Fatal(err)
+	}
+	var DisplayLocations struct{
+		Location []string
+	}
+	for _, location := range locationsResponse.Index {
+		if location.Id == id {
+			DisplayLocations.Location =location.Locations
+            break
+        }
     }
-	fmt.Println(locationsResponse.Index)
-	templates.ExecuteTemplate(w, "artistDetails.html", locationsResponse.Index)
+	fmt.Println(DisplayLocations)
+	templates.ExecuteTemplate(w, "artistDetails.html", DisplayLocations)
 }

@@ -1,26 +1,25 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Artist_Details</title>
     <link rel="stylesheet" href="/static/styles.css">
 </head>
+
 <body>
     <h1 class="artists-heading">
         artists</h1>
-    
+
     <div class="locations">
         <strong>Locations</strong>
-        {{range .}} 
-        <ul>
-    
-                <li>{{range .Locations}}</li>
-                <ul>{{.}}</ul>
-                
-                {{end}}
-            </ul>
-            {{end}}
+        {{range .Location}}
+        <ul>{{.}}</ul>
+        {{end}}
+
+       
     </div>
 </body>
+
 </html>

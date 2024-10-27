@@ -13,7 +13,9 @@
         <div class="artist-cards">
             {{ range . }}
             <div class="artist-card">
-                <img src="{{.Image}}" alt="" />
+                <a href="/details?id={{.Id}}">
+                <img src="{{.Image}}" alt="{{.Name}}"  />
+                </a>
                 <div class="card-texts">
                     <p class="card-name">{{ .Name }}</p>
                     <p class="card-date">Started in: {{ .CreationDate }}</p>
