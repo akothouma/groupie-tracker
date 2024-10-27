@@ -10,6 +10,7 @@ body {
 }
 
 .artists-heading {
+    display: block;
     text-align: center;
     margin-top: 70px;
     text-transform: capitalize;

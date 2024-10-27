@@ -15,7 +15,7 @@
 <div class="locationCard" onclick="toggleLocations()">
     <h2>LOCATIONS</h2>
     
-    <div class="locations" >
+    <div class="locations" onclick="toggleheading()">
         {{range .Location}}
         <ul>{{.}}</ul>
         {{end}}
@@ -24,18 +24,26 @@
     </div>
     <div id="map">  </div>
 </div>
+
 <script>
      function toggleLocations() {
             var locations = document.querySelector(".locations");
             var heading=document.querySelector(".locationCard h2 ")
             var map=document.querySelector("#map")
-            if (locations.style.display === "none") {
+            // if (locations.style.display === "none") {
                 locations.style.display = "block";
                 heading.style.display="none";
                 map.style.display="block";
-            } else {
+            // }
+
+        }
+        function toggleheading(){
+            var locations = document.querySelector(".locations");
+            var heading=document.querySelector(".locationCard h2 ")
+            var map=document.querySelector("#map")
+            if (locations.style.display === "block") {
                 locations.style.display = "none";
-                heading.style.display ="block";
+                heading.style.display="block";
                 map.style.display="none";
             }
         }
