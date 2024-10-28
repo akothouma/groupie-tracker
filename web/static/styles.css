@@ -49,52 +49,78 @@ body {
     transform: scale(1.05);
 }
 
-.locationCard{
+.artist_details_content {
     display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
     align-items: center;
-    border-style: dashed;
-    border-color: #a78295;
-    border-width: 2px;
-    padding: 10px;
-    border-radius: 10px;
-    margin-bottom: 10px;
-    background-color: #3f2e3e;
-    border: 1px solid #a78295;
-    border-radius: 20px;
-    transition: transform 0.3s;
+    justify-content: center;
+    flex-direction: column;
 }
 
-.locations{
-    display: none;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    border-style: solid;
-    border-color: #a78295;
-    border-width: 2px;
-    padding: 10px;
-    border-radius: 10px;
-    margin-bottom: 10px;
-    background-color: #3f2e3e;
+.accordion {
     border: 1px solid #a78295;
     border-radius: 20px;
-    transition: transform 0.3s;
-    margin-top: 10px;
-    width: 100%;
+    padding: 12px 20px;
+    margin-bottom: 20px;
+    min-width: 50%;
+    cursor: pointer;
+}
+
+.accordion .title {
+    font-size: 20px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.accordion svg {
+    width: 20px;
+    height: 20px;
+    border: 1px solid #a78295;
+    border-radius: 50%;
+    padding: 2px;
+}
+
+.desc {
     height: 100%;
-    text-align: center;
-    text-transform: capitalize;
-    font-size: 18px;
-    font-weight: bold;
-    color: #efe1d1;
-    font-family: 'Lato', sans-serif;
-    
+    margin: 20px 0 0;
+    overflow: hidden;
+    transition: all 0.2s linear;
+}
+
+.minus {
+    display: none;
+}
+
+.home-link {
+    position: relative;
+    display: inline-block;
+    color: #a78295;
+    text-decoration: none;
+    margin-bottom: 20px;
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.home-link::after {
+    content: '';
+    position: absolute;
+    height: 2px;
+    width: 0;
+    background-color: #a78295;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: -2px;
+    transition: .3s;
+}
+
+.home-link:hover::after {
+    width: 100%;
+    color: #b89bb0;
 }
 
 #map{
-    display: none;
+    /* display: none; */
     width: 100%;
     height: 500px;
     margin-top: 10px;
