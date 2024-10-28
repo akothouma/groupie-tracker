@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Artist_Details</title>
+    <link rel="stylesheet" href="/static/styles.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+</head>
+
+<body>
+    <h1 class="artists-heading">artists</h1>
+<div class="locationCard" onclick="toggleLocations()">
+    <h2>LOCATIONS</h2>
+    
+    <div class="locations" onclick="toggleheading()">
+        {{range .Location}}
+        <ul>{{.}}</ul>
+        {{end}}
+        
+        
+    </div>
+    <div id="map">  </div>
+</div>
+
+<script>
+     function toggleLocations() {
+            var locations = document.querySelector(".locations");
+            var heading=document.querySelector(".locationCard h2 ")
+            var map=document.querySelector("#map")
+            // if (locations.style.display === "none") {
+                locations.style.display = "block";
+                heading.style.display="none";
+                map.style.display="block";
+            // }
+
+        }
+        function toggleheading(){
+            var locations = document.querySelector(".locations");
+            var heading=document.querySelector(".locationCard h2 ")
+            var map=document.querySelector("#map")
+            if (locations.style.display === "block") {
+                locations.style.display = "none";
+                heading.style.display="block";
+                map.style.display="none";
+            }
+        }
+    async function getLatLng(location) {
+        const apiKey = '73ca8020aa254210bf3912f5a6ed9503'; // Replace with your OpenCage API key
+        const url = `https://api.opencagedata.com/geocode/v1/json?q=${encodeURIComponent(location)}&key=${apiKey}`;
+
+        try {
+            const response = await fetch(url);
+            const data = await response.json();
+
+            if (data.results && data.results.length > 0) {
+                const { lat, lng } = data.results[0].geometry;
+                return [lat, lng];
+            } else {
+                console.error('No results found for location:', location);
+                return null;
+            }
+        } catch (error) {
+            console.error('Error fetching geocoding data:', error);
+            return null;
+        }
+    }
+
+    async function initMap() {
+        var map = L.map('map').setView([39.8283, -98.5795], 4);
+
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 19,
+            attribution: '© OpenStreetMap contributors'
+        }).addTo(map);
+
+        var locations = document.querySelector(".locations");
+        var locationArray = locations.getElementsByTagName("ul");
+
+        for (var i = 0; i < locationArray.length; i++) {
+            var location = locationArray[i].textContent.trim();
+            var latLng = await getLatLng(location);
+            if (latLng) {
+                L.marker(latLng).addTo(map)
+                    .bindPopup(location)
+                    .openPopup();
+            }
+        }
+    }
+
+    document.addEventListener('DOMContentLoaded', initMap);
+</script>
+    
+</body>
+
+</html>
