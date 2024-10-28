@@ -164,7 +164,6 @@ func MoreDetails(w http.ResponseWriter, r *http.Request) {
 
 	var oneArtistDetails ArtistDetails
 	oneArtist := artists[id-1]
-	var location LocationsData
 	var relation Relation
 	var dates ConcertDate
 
@@ -178,10 +177,22 @@ func MoreDetails(w http.ResponseWriter, r *http.Request) {
 	if err1 != nil {
 		fmt.Println(err)
 	}
-	
-	
-	fmt.Println(oneArtistDetails.Dates)
+	relationBody,err := Fetch("https://groupietrackers.herokuapp.com/api/relation/" + idString)
+	if err!=nil{
+		fmt.Println(err)
+	}
 
+	err2 := json.Unmarshal(relationBody, &relation)
+	if err2 != nil {
+		fmt.Println(err)
+	}
+	// oneArtistDetails.ArtistsName = oneArtist
+	// oneArtistDetails.Locations = location
+	// oneArtistDetails.Dates = dates
+	// oneArtistDetails.Relation = relation
+
+	fmt.Println(oneArtist)
+	fmt.Println(oneArtistDetails)
 	
 }
 
