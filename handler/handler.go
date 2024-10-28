@@ -25,13 +25,29 @@ type Artist struct {
 	CreationDate int      `json:"creationDate"`
 	FirstAlbum   string   `json:"firstAlbum"`
 }
-type locationsData struct {
+type ArtistDetails struct { 
+	ArtistsName Artist
+	Locations   LocationsData
+	Dates       ConcertDate
+	Relation    Relation
+}
+type LocationsData struct {
 	Id        int      `json:"id"`
 	Locations []string `json:"locations"`
 	Dates     string   `json:"dates"`
 }
 type LocationsResponse struct {
-	Index []locationsData `json:"index"`
+	Index []LocationsData `json:"index"`
+}
+
+type ConcertDate struct {
+	Id    int      `json:"id"`
+	Dates []string `json:"dates"`
+}
+
+type Relation struct {
+	Id             int                 `json:"id"`
+	DatesLocations map[string][]string `json:"datesLocations"`
 }
 
 var template_dir = "./web/templates/"
@@ -42,7 +58,7 @@ func Fetch(url string) ([]byte, error) {
 
 	response, artists_err := http.Get(url)
 	if artists_err != nil {
-		return nil, fmt.Errorf("Error making a get request to the artists api endpoint: %s", artists_err)
+		return nil, fmt.Errorf("error making a get request to the artists api endpoint: %s", artists_err)
 	}
 
 	defer response.Body.Close()
@@ -50,7 +66,7 @@ func Fetch(url string) ([]byte, error) {
 	if response.StatusCode == http.StatusOK {
 		body, body_err = io.ReadAll(response.Body)
 		if body_err != nil {
-			return nil, fmt.Errorf("Error reading response body: %s", body_err)
+			return nil, fmt.Errorf("error reading response body: %s", body_err)
 		}
 	}
 
@@ -104,7 +120,7 @@ func GetLocations(w http.ResponseWriter, r *http.Request) {
 	}
 
 	locationsResponse := LocationsResponse{
-		Index: []locationsData{},
+		Index: []LocationsData{},
 	}
 	fetchedLocations, location_bytes_err := Fetch(locations_url)
 	if location_bytes_err != nil {
