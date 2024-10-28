@@ -67,10 +67,10 @@ This program was built and maintained by
 
   <img src="https://learn.zone01kisumu.ke/git/avatars/7c3793c3fac1a5908d1646d153555890?size=870" width="200">
 
-* [wnjuguna](https://learn.zone01kisumu.ke/git/wnjuguna)
+* [dochiel](https://learn.zone01kisumu.ke/git/dochiel)
 
-  <img src="https://learn.zone01kisumu.ke/git/avatars/c9b7b96426b4781d5a16fef462551fb5?size=870" width="200">
+  <img src="https://learn.zone01kisumu.ke/git/avatars/5b37f9d9f8c32a1e9d1435f4fea92395?size=870" width="200">
 
-* [shfana](https://learn.zone01kisumu.ke/git/shfana)
+* [lakoth](https://learn.zone01kisumu.ke/git/lakoth)
 
-  <img src="https://learn.zone01kisumu.ke/git/avatars/b82abc0b61d38ce3a680d3c04e2331c8?size=870" width="200">
+  <img src="https://learn.zone01kisumu.ke/git/avatars/de25acc56bfa4c78a61f5a5b4517d45d?size=870" width="200">
