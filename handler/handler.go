@@ -36,14 +36,13 @@ type LocationsResponse struct {
 
 var template_dir = "./web/templates/"
 
-func Fetch(url string) []byte {
+func Fetch(url string) ([]byte, error) {
 	body := []byte{}
 	var body_err error
 
 	response, artists_err := http.Get(url)
 	if artists_err != nil {
-		log.Printf("The following error was encountered while making a get request to the groupie tracker api: %s", artists_err)
-		return nil
+		return nil, fmt.Errorf("Error making a get request to the artists api endpoint: %s", artists_err)
 	}
 
 	defer response.Body.Close()
@@ -51,12 +50,11 @@ func Fetch(url string) []byte {
 	if response.StatusCode == http.StatusOK {
 		body, body_err = io.ReadAll(response.Body)
 		if body_err != nil {
-			log.Fatal(body_err)
-			return nil
+			return nil, fmt.Errorf("Error reading response body: %s", body_err)
 		}
 	}
 
-	return body
+	return body, nil
 }
 
 // GetArtists fetches all the artists from the api and stores them in an array of objects
@@ -69,7 +67,11 @@ func GetArtists(w http.ResponseWriter, r *http.Request) {
 	}
 	artists := []Artist{}
 
-	artists_bytes := Fetch(artists_url)
+	artists_bytes, artists_bytes_err := Fetch(artists_url)
+	if artists_bytes_err != nil {
+		templates.ExecuteTemplate(w, "errors.html", "Unable to fetch artists. Please try again later.")
+		return
+	}
 
 	json.Unmarshal(artists_bytes, &artists)
 
@@ -104,7 +106,12 @@ func GetLocations(w http.ResponseWriter, r *http.Request) {
 	locationsResponse := LocationsResponse{
 		Index: []locationsData{},
 	}
-	fetchedLocations := Fetch(locations_url)
+	fetchedLocations, location_bytes_err := Fetch(locations_url)
+	if location_bytes_err != nil {
+		templates.ExecuteTemplate(w, "errors.html", "Unable to fetch artist's locations. Please try again later.")
+		return
+	}
+	
 
 	err = json.Unmarshal(fetchedLocations, &locationsResponse)
 	if err != nil {
