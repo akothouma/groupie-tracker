@@ -1,0 +1,36 @@
+.parent{
+    display:grid;
+    grid-template-columns: repeat(5,1fr);
+    gap:20px;
+    justify-content: space-evenly;
+    align-content: space-between;
+    justify-self: stretch;
+    margin-left: 200px;
+    margin-right: 200px;
+    
+}
+.child{
+    border: 3px solid #A78295;
+    height: 350px;
+    margin-top: 40px;
+    border-radius: 30px;
+    display:grid;
+    width: 300px;
+    grid-template-rows: 3fr 1fr;
+}
+.photo{
+grid-row: 1;
+background-color: white;
+border-top-left-radius: 30px;
+border-top-right-radius: 30px;
+margin: 10px;
+}
+.details{
+ grid-row: 2;   
+border-bottom-right-radius: 30px;
+border-bottom-left-radius: 30px;
+background-color: #3F2E3E;
+color:#EFE1D1;
+justify-self: center;
+
+}

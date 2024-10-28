@@ -1,0 +1,26 @@
+body{
+    background-color: #331D2C;
+    min-height:100vh;
+    
+}
+.parent{
+    display:grid;
+    grid-template-rows: 1fr 1fr 1fr;
+    align-content: space-between;
+    gap:40px
+}
+header{
+   height: 300px; 
+   background-image: url("../static/Screenshot\ from\ 2024-09-25\ 17-44-47.png") ;
+   background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-attachment: fixed;
+    position: static;
+
+}
+
+footer{
+    position:absolute;
+    bottom:0;
+}

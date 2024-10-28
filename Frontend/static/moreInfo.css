@@ -1,0 +1,53 @@
+
+.child{
+    display: grid;
+    place-content: center;
+    margin-top:40px;
+    display: grid;
+    grid-template-rows: 2fr 1fr 1fr;
+    align-content: space-between;
+    gap: 40px;
+    margin-left: 200px;
+    margin-right: 200px;
+}
+
+.artist-details{
+    display:grid;
+    padding:20px;
+    margin-top: 20px;
+    border: 3px solid yellow; 
+    grid-template-columns: 1fr 3fr;
+    justify-content: space-evenly;
+    gap:20px;
+}
+.band-members {
+    display: grid;
+    justify-content: space-evenly;
+    gap:20px;
+    grid-template-columns: repeat(5,1fr);
+    grid-column:1/2;
+
+
+}
+.photo{
+    border: 3px solid white;
+
+}
+
+.dates {
+    display: grid;
+    grid-template-columns: repeat(5,1fr);
+    justify-content: space-evenly;
+    gap:20px;
+    margin-bottom: 40px;
+
+}
+
+.band-member{
+    border: 3px solid white;
+    grid-row: 2;
+}
+.date{
+    border: 3px solid white;
+}
+
