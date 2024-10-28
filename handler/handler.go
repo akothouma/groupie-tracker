@@ -31,10 +31,11 @@ type ArtistDetails struct {
 	Dates       ConcertDate
 	Relation    Relation
 }
+
 type LocationsData struct {
 	Id        int      `json:"id"`
 	Locations []string `json:"locations"`
-	Dates     string   `json:"dates"`
+	//Dates     string   `json:"dates"`
 }
 type LocationsResponse struct {
 	Index []LocationsData `json:"index"`
@@ -186,13 +187,22 @@ func MoreDetails(w http.ResponseWriter, r *http.Request) {
 	if err2 != nil {
 		fmt.Println(err)
 	}
-	// oneArtistDetails.ArtistsName = oneArtist
-	// oneArtistDetails.Locations = location
-	// oneArtistDetails.Dates = dates
-	// oneArtistDetails.Relation = relation
 
-	fmt.Println(oneArtist)
-	fmt.Println(oneArtistDetails)
+	var location LocationsData
+	locationBody,err:= Fetch("https://groupietrackers.herokuapp.com/api/locations/" + idString)
+	if err!=nil{
+		fmt.Println(err)
+	}
+	err3:= json.Unmarshal(locationBody, &location)
+	if err3!= nil {
+		fmt.Println(err)
+	}
+	oneArtistDetails.ArtistsName = oneArtist
+	oneArtistDetails.Locations = location
+	oneArtistDetails.Dates = dates
+	oneArtistDetails.Relation = relation
+
+	
 	
 }
 
