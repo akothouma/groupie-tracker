@@ -34,15 +34,16 @@ func main() {
 	})
 
 	fs := http.FileServer(http.Dir("./web/static/"))
-	// http.Handle("/static/", http.StripPrefix("/static/", fs))
-
 	http.Handle("/static/", http.StripPrefix("/static/", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		if strings.HasSuffix(r.URL.Path, "styles.css")  {
-			http.Error(w, "404 - Not Found", http.StatusNotFound)
-			return
-		}
-		fs.ServeHTTP(w, r)
-	})))
+        if strings.HasSuffix(r.URL.Path, "styles.css") {
+            // Check if the request comes from your own site
+            if !strings.HasPrefix(r.Referer(), "http://localhost:8001") {
+                http.Error(w, "404 - Not Found", http.StatusNotFound)
+                return
+            }
+        }
+        fs.ServeHTTP(w, r)
+    })))
 
 	// if err!=nil{
 	// 	log.Fatal(err)
