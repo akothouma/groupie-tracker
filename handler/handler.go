@@ -145,3 +145,27 @@ func GetLocations(w http.ResponseWriter, r *http.Request) {
 	fmt.Println(DisplayLocations)
 	templates.ExecuteTemplate(w, "artistDetails.html", DisplayLocations)
 }
+func MoreDetails(w http.ResponseWriter, r *http.Request) {
+	resContent,err := Fetch(artists_url)
+	if err!=nil{
+		fmt.Println(err)
+	}
+
+	var artists []Artist
+	err = json.Unmarshal(resContent, &artists)
+	if err != nil {
+		fmt.Print(err.Error())
+	}
+	//idString := r.URL.Query().Get("id")
+	id, err := strconv.Atoi(r.URL.Query().Get("id"))
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	//var oneArtistDetails ArtistDetails
+	oneArtist := artists[id-1]
+	fmt.Println(oneArtist)
+
+	
+}
+
