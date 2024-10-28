@@ -156,15 +156,31 @@ func MoreDetails(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		fmt.Print(err.Error())
 	}
-	//idString := r.URL.Query().Get("id")
+	idString := r.URL.Query().Get("id")
 	id, err := strconv.Atoi(r.URL.Query().Get("id"))
 	if err != nil {
 		fmt.Println(err)
 	}
 
-	//var oneArtistDetails ArtistDetails
+	var oneArtistDetails ArtistDetails
 	oneArtist := artists[id-1]
-	fmt.Println(oneArtist)
+	var location LocationsData
+	var relation Relation
+	var dates ConcertDate
+
+	
+	dateBody,err:= Fetch("https://groupietrackers.herokuapp.com/api/dates/" + idString)
+	if err!=nil{
+		fmt.Println(err)
+	}
+	
+	err1 := json.Unmarshal(dateBody, &dates)
+	if err1 != nil {
+		fmt.Println(err)
+	}
+	
+	
+	fmt.Println(oneArtistDetails.Dates)
 
 	
 }
