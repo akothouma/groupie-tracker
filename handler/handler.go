@@ -147,6 +147,15 @@ func GetLocations(w http.ResponseWriter, r *http.Request) {
 	templates.ExecuteTemplate(w, "artistDetails.html", DisplayLocations)
 }
 func MoreDetails(w http.ResponseWriter, r *http.Request) {
+
+	if r.Method != http.MethodGet {
+		http.Error(w, r.Method, http.StatusMethodNotAllowed)
+		return
+	}
+	if r.URL.Path != "/details" {
+		http.Error(w, r.Method, http.StatusNotFound)
+		return
+	}
 	resContent,err := Fetch(artists_url)
 	if err!=nil{
 		fmt.Println(err)
@@ -162,6 +171,16 @@ func MoreDetails(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		fmt.Println(err)
 	}
+
+	if idString==""{
+		fmt.Println("invalid id")
+		return
+	}
+   if id<1||id>len(artists)-1{
+	fmt.Println("artist doesn't exist")
+		return
+   }
+
 
 	var oneArtistDetails ArtistDetails
 	oneArtist := artists[id-1]
@@ -202,7 +221,7 @@ func MoreDetails(w http.ResponseWriter, r *http.Request) {
 	oneArtistDetails.Dates = dates
 	oneArtistDetails.Relation = relation
 
-	
+	fmt.Println(oneArtistDetails)
 	
 }
 
