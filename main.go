@@ -21,7 +21,7 @@ func main() {
 	}
 
 	http.HandleFunc("/", handler.GetArtists)
-	http.HandleFunc("/details", handler.GetLocations)
+	http.HandleFunc("/details", handler.MoreDetails)
 
 	fs := http.FileServer(http.Dir("./web/static/"))
 	http.Handle("/static/", http.StripPrefix("/static/", fs))
