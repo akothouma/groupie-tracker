@@ -1,0 +1,34 @@
+body {
+    background-color: #331d2c;
+    color: white;
+    
+}
+
+h1{
+    align-items: center;
+}
+
+.artist-cards{
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+    
+}
+.artist-cards p{
+    border: 1px solid white;
+    border-radius: 50px;
+    padding:12px 30px
+
+}
+
+.more_info{
+    border: 1px solid white;
+    border-radius: 20px;
+}
+
+.info_cards{
+    display:flex;
+    flex-direction: column;
+    justify-content:space-between;
+    gap: 20px;
+}
