@@ -97,6 +97,7 @@ func GetArtists(w http.ResponseWriter, r *http.Request) {
 	templates.ExecuteTemplate(w, "artists.html", artists)
 }
 
+/*
 func GetLocations(w http.ResponseWriter, r *http.Request) {
 	if r.Method != "GET" {
 		http.Error(w, "Invalid request method", http.StatusMethodNotAllowed)
@@ -147,6 +148,7 @@ func GetLocations(w http.ResponseWriter, r *http.Request) {
 	fmt.Println(DisplayLocations)
 	templates.ExecuteTemplate(w, "artistDetails.html", DisplayLocations)
 }
+*/
 
 func MoreDetails(w http.ResponseWriter, r *http.Request) {
 	if r.Method != http.MethodGet {
@@ -154,10 +156,6 @@ func MoreDetails(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	if r.URL.Path != "/details" {
-		http.Error(w, r.Method, http.StatusNotFound)
-		return
-	}
 	resContent, err := Fetch(artists_url)
 	if err != nil {
 		fmt.Println(err)
