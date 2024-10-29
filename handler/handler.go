@@ -25,7 +25,8 @@ type Artist struct {
 	CreationDate int      `json:"creationDate"`
 	FirstAlbum   string   `json:"firstAlbum"`
 }
-type ArtistDetails struct { 
+
+type ArtistDetails struct {
 	ArtistsName Artist
 	Locations   LocationsData
 	Dates       ConcertDate
@@ -37,6 +38,7 @@ type LocationsData struct {
 	Locations []string `json:"locations"`
 	//Dates     string   `json:"dates"`
 }
+
 type LocationsResponse struct {
 	Index []LocationsData `json:"index"`
 }
@@ -128,36 +130,36 @@ func GetLocations(w http.ResponseWriter, r *http.Request) {
 		templates.ExecuteTemplate(w, "errors.html", "Unable to fetch artist's locations. Please try again later.")
 		return
 	}
-	
 
 	err = json.Unmarshal(fetchedLocations, &locationsResponse)
 	if err != nil {
 		log.Fatal(err)
 	}
-	var DisplayLocations struct{
+	var DisplayLocations struct {
 		Location []string
 	}
 	for _, location := range locationsResponse.Index {
 		if location.Id == id {
-			DisplayLocations.Location =location.Locations
-            break
-        }
-    }
+			DisplayLocations.Location = location.Locations
+			break
+		}
+	}
 	fmt.Println(DisplayLocations)
 	templates.ExecuteTemplate(w, "artistDetails.html", DisplayLocations)
 }
-func MoreDetails(w http.ResponseWriter, r *http.Request) {
 
+func MoreDetails(w http.ResponseWriter, r *http.Request) {
 	if r.Method != http.MethodGet {
 		http.Error(w, r.Method, http.StatusMethodNotAllowed)
 		return
 	}
+
 	if r.URL.Path != "/details" {
 		http.Error(w, r.Method, http.StatusNotFound)
 		return
 	}
-	resContent,err := Fetch(artists_url)
-	if err!=nil{
+	resContent, err := Fetch(artists_url)
+	if err != nil {
 		fmt.Println(err)
 	}
 
@@ -172,33 +174,31 @@ func MoreDetails(w http.ResponseWriter, r *http.Request) {
 		fmt.Println(err)
 	}
 
-	if idString==""{
+	if idString == "" {
 		fmt.Println("invalid id")
 		return
 	}
-   if id<1||id>len(artists)-1{
-	fmt.Println("artist doesn't exist")
+	if id < 1 || id > len(artists)-1 {
+		fmt.Println("artist doesn't exist")
 		return
-   }
-
+	}
 
 	var oneArtistDetails ArtistDetails
 	oneArtist := artists[id-1]
 	var relation Relation
 	var dates ConcertDate
 
-	
-	dateBody,err:= Fetch("https://groupietrackers.herokuapp.com/api/dates/" + idString)
-	if err!=nil{
+	dateBody, err := Fetch("https://groupietrackers.herokuapp.com/api/dates/" + idString)
+	if err != nil {
 		fmt.Println(err)
 	}
-	
+
 	err1 := json.Unmarshal(dateBody, &dates)
 	if err1 != nil {
 		fmt.Println(err)
 	}
-	relationBody,err := Fetch("https://groupietrackers.herokuapp.com/api/relation/" + idString)
-	if err!=nil{
+	relationBody, err := Fetch("https://groupietrackers.herokuapp.com/api/relation/" + idString)
+	if err != nil {
 		fmt.Println(err)
 	}
 
@@ -208,12 +208,12 @@ func MoreDetails(w http.ResponseWriter, r *http.Request) {
 	}
 
 	var location LocationsData
-	locationBody,err:= Fetch("https://groupietrackers.herokuapp.com/api/locations/" + idString)
-	if err!=nil{
+	locationBody, err := Fetch("https://groupietrackers.herokuapp.com/api/locations/" + idString)
+	if err != nil {
 		fmt.Println(err)
 	}
-	err3:= json.Unmarshal(locationBody, &location)
-	if err3!= nil {
+	err3 := json.Unmarshal(locationBody, &location)
+	if err3 != nil {
 		fmt.Println(err)
 	}
 	oneArtistDetails.ArtistsName = oneArtist
@@ -222,6 +222,4 @@ func MoreDetails(w http.ResponseWriter, r *http.Request) {
 	oneArtistDetails.Relation = relation
 
 	fmt.Println(oneArtistDetails)
-	
 }
-

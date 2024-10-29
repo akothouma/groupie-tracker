@@ -16,9 +16,9 @@ var (
 func main() {
 	var err error
 	templates, err = templates.ParseGlob(template_dir + "*.html")
-	if err!=nil {
-        panic(err)
-    }
+	if err != nil {
+		panic(err)
+	}
 
 	http.HandleFunc("/", handler.GetArtists)
 	http.HandleFunc("/details", handler.GetLocations)
