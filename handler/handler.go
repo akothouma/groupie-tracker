@@ -156,68 +156,81 @@ func MoreDetails(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	resContent, err := Fetch(artists_url)
-	if err != nil {
-		fmt.Println(err)
-	}
-
 	var artists []Artist
-	err = json.Unmarshal(resContent, &artists)
-	if err != nil {
-		fmt.Print(err.Error())
+
+	artistsBody, artistsBody_err := Fetch(artists_url)
+	if artistsBody_err != nil {
+		log.Println("an error occured while fetching artists body: ", artistsBody_err)
+		templates.ExecuteTemplate(w, "errors.html", "Currently unable to display the requested information. Please try again later.")
+		return
 	}
+	artistUnmarshal_err := json.Unmarshal(artistsBody, &artists)
+	if artistUnmarshal_err != nil {
+		log.Println("an error occured while unmarshalling artists body: ", artistUnmarshal_err)
+		templates.ExecuteTemplate(w, "errors.html", "Currently unable to display the requested information. Please try again later.")
+		return
+	}
+
 	idString := r.URL.Query().Get("id")
-	id, err := strconv.Atoi(r.URL.Query().Get("id"))
-	if err != nil {
-		fmt.Println(err)
-	}
-
-	if idString == "" {
-		fmt.Println("invalid id")
+	artistId, artistId_err := strconv.Atoi(idString)
+	if artistId_err != nil || idString == "" {
+		http.Error(w, "Invalid id", http.StatusBadRequest)
 		return
 	}
-	if id < 1 || id > len(artists)-1 {
-		fmt.Println("artist doesn't exist")
+	if artistId < 1 || artistId > len(artists)-1 {
+		http.Error(w, "We did not find an artist with that id.", http.StatusNotFound)
 		return
 	}
 
-	var oneArtistDetails ArtistDetails
-	oneArtist := artists[id-1]
+	var ArtistDetails ArtistDetails
+	artist := artists[artistId-1]
 	var relation Relation
 	var dates ConcertDate
 
-	dateBody, err := Fetch("https://groupietrackers.herokuapp.com/api/dates/" + idString)
-	if err != nil {
-		fmt.Println(err)
+	datesBody, datesBody_err := Fetch("https://groupietrackers.herokuapp.com/api/dates/" + idString)
+	if datesBody_err != nil {
+		log.Println("an error occured while fetching artist's dates: ", datesBody_err)
+		templates.ExecuteTemplate(w, "errors.html", "Currently unable to display the requested information. Please try again later.")
+		return
+	}
+	datesUnmarshal_err := json.Unmarshal(datesBody, &dates)
+	if datesUnmarshal_err != nil {
+		log.Println("an error occured while unmarshalling artist's dates: ", datesUnmarshal_err)
+		templates.ExecuteTemplate(w, "errors.html", "Currently unable to display the requested information. Please try again later.")
+		return
 	}
 
-	err1 := json.Unmarshal(dateBody, &dates)
-	if err1 != nil {
-		fmt.Println(err)
+	relationsBody, relationsBody_err := Fetch("https://groupietrackers.herokuapp.com/api/relation/" + idString)
+	if relationsBody_err != nil {
+		log.Println("an error occured while fetching artist's relations: ", relationsBody_err)
+		templates.ExecuteTemplate(w, "errors.html", "Currently unable to display the requested information. Please try again later.")
+		return
 	}
-	relationBody, err := Fetch("https://groupietrackers.herokuapp.com/api/relation/" + idString)
-	if err != nil {
-		fmt.Println(err)
-	}
-
-	err2 := json.Unmarshal(relationBody, &relation)
-	if err2 != nil {
-		fmt.Println(err)
+	relationsUnmarshal_err := json.Unmarshal(relationsBody, &relation)
+	if relationsUnmarshal_err != nil {
+		log.Println("an error occured while unmarshalling artist's relations: ", relationsUnmarshal_err)
+		templates.ExecuteTemplate(w, "errors.html", "Currently unable to display the requested information. Please try again later.")
+		return
 	}
 
 	var location LocationsData
-	locationBody, err := Fetch("https://groupietrackers.herokuapp.com/api/locations/" + idString)
-	if err != nil {
-		fmt.Println(err)
+	locationsBody, locationsBody_err := Fetch("https://groupietrackers.herokuapp.com/api/locations/" + idString)
+	if locationsBody_err != nil {
+		log.Println("an error occured while fetching artist's locations: ", locationsBody_err)
+		templates.ExecuteTemplate(w, "errors.html", "Currently unable to display the requested information. Please try again later.")
+		return
 	}
-	err3 := json.Unmarshal(locationBody, &location)
-	if err3 != nil {
-		fmt.Println(err)
+	locationsUnmarshal_err := json.Unmarshal(locationsBody, &location)
+	if locationsUnmarshal_err != nil {
+		log.Println("an error occured while unmarshalling artist's locations: ", locationsUnmarshal_err)
+		templates.ExecuteTemplate(w, "errors.html", "Currently unable to display the requested information. Please try again later.")
+		return
 	}
-	oneArtistDetails.ArtistsName = oneArtist
-	oneArtistDetails.Locations = location
-	oneArtistDetails.Dates = dates
-	oneArtistDetails.Relation = relation
+	
+	ArtistDetails.ArtistsName = artist
+	ArtistDetails.Locations = location
+	ArtistDetails.Dates = dates
+	ArtistDetails.Relation = relation
 
-	fmt.Println(oneArtistDetails)
+	fmt.Println(ArtistDetails)
 }
