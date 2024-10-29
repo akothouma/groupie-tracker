@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Artist Details</title>
+    <link rel="stylesheet" href="/static/styles1.css">
+</head>
+
+<body>
+    <h1>More on <strong> {{.ArtistsName.Name}}</strong> </h1>
+   
+    <div class="details">
+        <div class="artist-cards">
+            <div>
+                <img src="{{.ArtistsName.Image}}" alt="{{.ArtistsName.Name}}">
+            </div>
+            <div>
+                <p>Started in:{{.ArtistsName.CreationDate}}</p>
+                <p>First Album made on:{{.ArtistsName.FirstAlbum}}</p>
+                
+            </div>
+        </div>
+        <div class="info_cards">
+            <div class="more_info">
+                <div>
+                    <p>Band Member(s)</p>
+                </div>
+                <div>
+                    <ul>
+                        {{range .ArtistsName.Members}}
+                        <ul> {{.}}</ul>
+                        {{end}}
+                    </ul>
+                </div>
+            </div>
+
+            <div class="more_info">
+                <div>
+                    <p>Concert Dates</p>
+                </div>
+                <div>
+                    <ul>
+                        {{range .Dates.Dates}}
+                        <ul>{{.}}</ul>
+                        {{end}}
+                    </ul>
+                </div>
+
+            </div>
+
+
+            <div class="more_info">
+                <div>
+                    <p>Locations and date relation</p>
+                    
+                </div>
+                <div class="relations">
+                    <ul>
+                        {{range $dates, $location:= .Relation.DatesLocations}}
+                        <li>
+                            <p>{{$dates}}</p>
+                            <ul>
+                                {{range $location}}
+                                <ul>{{ . }}</ul>
+                                {{end}}
+                            </ul>
+                        </li>
+                        {{end}}
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</body>
+
+</html>
