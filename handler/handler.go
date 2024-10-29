@@ -24,13 +24,16 @@ type Artist struct {
 	Members      []string `json:"members"`
 	CreationDate int      `json:"creationDate"`
 	FirstAlbum   string   `json:"firstAlbum"`
+	Locations    string   `json:"locations"`
+	ConcertDates string   `json:"concertDates"`
+	Relations    string   `json:"relations"`
 }
 
 type ArtistDetails struct {
-	ArtistsName Artist
-	Locations   LocationsData
-	Dates       ConcertDate
-	Relation    Relation
+	Artist    Artist
+	Locations LocationsData
+	Dates     ConcertDate
+	Relations Relation
 }
 
 type LocationsData struct {
@@ -182,55 +185,48 @@ func MoreDetails(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	var ArtistDetails ArtistDetails
+	var artistDetails ArtistDetails
 	artist := artists[artistId-1]
-	var relation Relation
-	var dates ConcertDate
+	artistDetails.Artist = artist
 
-	datesBody, datesBody_err := Fetch("https://groupietrackers.herokuapp.com/api/dates/" + idString)
+	datesBody, datesBody_err := Fetch(artist.ConcertDates)
 	if datesBody_err != nil {
 		log.Println("an error occured while fetching artist's dates: ", datesBody_err)
 		templates.ExecuteTemplate(w, "errors.html", "Currently unable to display the requested information. Please try again later.")
 		return
 	}
-	datesUnmarshal_err := json.Unmarshal(datesBody, &dates)
+	datesUnmarshal_err := json.Unmarshal(datesBody, &artistDetails.Dates)
 	if datesUnmarshal_err != nil {
 		log.Println("an error occured while unmarshalling artist's dates: ", datesUnmarshal_err)
 		templates.ExecuteTemplate(w, "errors.html", "Currently unable to display the requested information. Please try again later.")
 		return
 	}
 
-	relationsBody, relationsBody_err := Fetch("https://groupietrackers.herokuapp.com/api/relation/" + idString)
+	relationsBody, relationsBody_err := Fetch(artist.Relations)
 	if relationsBody_err != nil {
 		log.Println("an error occured while fetching artist's relations: ", relationsBody_err)
 		templates.ExecuteTemplate(w, "errors.html", "Currently unable to display the requested information. Please try again later.")
 		return
 	}
-	relationsUnmarshal_err := json.Unmarshal(relationsBody, &relation)
+	relationsUnmarshal_err := json.Unmarshal(relationsBody, &artistDetails.Relations)
 	if relationsUnmarshal_err != nil {
 		log.Println("an error occured while unmarshalling artist's relations: ", relationsUnmarshal_err)
 		templates.ExecuteTemplate(w, "errors.html", "Currently unable to display the requested information. Please try again later.")
 		return
 	}
 
-	var location LocationsData
-	locationsBody, locationsBody_err := Fetch("https://groupietrackers.herokuapp.com/api/locations/" + idString)
+	locationsBody, locationsBody_err := Fetch(artist.Locations)
 	if locationsBody_err != nil {
 		log.Println("an error occured while fetching artist's locations: ", locationsBody_err)
 		templates.ExecuteTemplate(w, "errors.html", "Currently unable to display the requested information. Please try again later.")
 		return
 	}
-	locationsUnmarshal_err := json.Unmarshal(locationsBody, &location)
+	locationsUnmarshal_err := json.Unmarshal(locationsBody, &artistDetails.Locations)
 	if locationsUnmarshal_err != nil {
 		log.Println("an error occured while unmarshalling artist's locations: ", locationsUnmarshal_err)
 		templates.ExecuteTemplate(w, "errors.html", "Currently unable to display the requested information. Please try again later.")
 		return
 	}
-	
-	ArtistDetails.ArtistsName = artist
-	ArtistDetails.Locations = location
-	ArtistDetails.Dates = dates
-	ArtistDetails.Relation = relation
 
-	fmt.Println(ArtistDetails)
+	fmt.Println(artistDetails)
 }
