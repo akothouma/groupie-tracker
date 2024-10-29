@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Artist_Details</title>
+    <title>{{.Artist.Name}} Details</title>
     <link rel="stylesheet" href="/static/styles.css">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
@@ -13,11 +13,41 @@
 <body>
     <div class="artists-heading">
         <a class="home-link" href="http://localhost:8001/">Back to home</a>
-        <h1>artists</h1>
-    </div>
-   
+        <h1>more on {{ .Artist.Name }}</h1>
+    </div>   
   
     <div class="artist_details_content">
+        <img class="details-image" src="{{.Artist.Image}}" alt="{{ .Artist.Name }} Image" />
+
+        <div class="details_dates">
+            <p>Started in: <span class="date">{{ .Artist.CreationDate }}</span></p>
+            <p>First album made on: <span class="date">{{ .Artist.FirstAlbum }}</span></p>
+        </div>
+
+        <div class="accordion">
+            <div class="title">
+                <p>Band Member(s)</p>
+
+                <div class="icons">
+                    <svg class="plus" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                        stroke-width="1.5" stroke="currentColor" class="size-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+                    </svg>
+
+                    <svg class="minus" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                        stroke-width="1.5" stroke="currentColor" class="size-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M5 12h14" />
+                    </svg>
+                </div>
+            </div>
+
+            <div class="desc">
+                {{range .Artist.Members}}
+                <li>{{.}}</li>
+                {{end}}
+            </div>
+        </div>
+        
         <div class="accordion" onclick="toggleLocations()">
             <div class="title">
                 <p>Concert location(s)</p>
@@ -36,13 +66,69 @@
             </div>
 
             <div class="desc">
-                {{range .Location}}
-                <ul>{{.}}</ul>
+                {{range .Locations.Locations}}
+                <li>{{.}}</li>
                 {{end}}
 
                 <div id="map"></div>
             </div>
-            
+        </div>
+
+        <div class="accordion">
+            <div class="title">
+                <p>Concerts date(s)</p>
+
+                <div class="icons">
+                    <svg class="plus" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                        stroke-width="1.5" stroke="currentColor" class="size-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+                    </svg>
+
+                    <svg class="minus" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                        stroke-width="1.5" stroke="currentColor" class="size-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M5 12h14" />
+                    </svg>
+                </div>
+            </div>
+
+            <div class="desc">
+                {{range .Dates.Dates}}
+                <li>{{.}}</li>
+                {{end}}
+            </div>
+        </div>
+
+        <div class="accordion">
+            <div class="title">
+                <p>Concerts relation(s)</p>
+
+                <div class="icons">
+                    <svg class="plus" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                        stroke-width="1.5" stroke="currentColor" class="size-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+                    </svg>
+
+                    <svg class="minus" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                        stroke-width="1.5" stroke="currentColor" class="size-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M5 12h14" />
+                    </svg>
+                </div>
+            </div>
+
+            <div class="desc">
+                <ul>
+                    {{range $location, $dates:= .Relations.DatesLocations}}
+                    <li>
+                        <p>{{$location}}</p>
+                        <ul>
+                            {{range $dates}}
+                            <ul>{{ . }}</ul>
+                            {{end}}
+                        </ul>
+                    </li>
+                    {{end}}
+                </ul>
+            </div>
         </div>
     </div>
 

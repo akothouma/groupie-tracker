@@ -3,17 +3,11 @@ package handler
 import (
 	"encoding/json"
 	"fmt"
-	"html/template"
+	"groupie/vars"
 	"io"
 	"log"
 	"net/http"
 	"strconv"
-)
-
-var (
-	templates     *template.Template
-	artists_url   = "https://groupietrackers.herokuapp.com/api/artists"
-	locations_url = "https://groupietrackers.herokuapp.com/api/locations"
 )
 
 // struct model for artist's details, fetched using json tags
@@ -81,23 +75,22 @@ func Fetch(url string) ([]byte, error) {
 
 // GetArtists fetches all the artists from the api and stores them in an array of objects
 func GetArtists(w http.ResponseWriter, r *http.Request) {
-	var err error
-	templates = template.New("")
-	templates, err = templates.ParseGlob(template_dir + "*.html")
-	if err != nil {
-		log.Fatal(err)
+	if r.Method != "GET" {
+		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
+		return
 	}
+
 	artists := []Artist{}
 
-	artists_bytes, artists_bytes_err := Fetch(artists_url)
+	artists_bytes, artists_bytes_err := Fetch(vars.Artists_url)
 	if artists_bytes_err != nil {
-		templates.ExecuteTemplate(w, "errors.html", "Unable to fetch artists. Please try again later.")
+		vars.Templates.ExecuteTemplate(w, "errors.html", "Unable to fetch artists. Please try again later.")
 		return
 	}
 
 	json.Unmarshal(artists_bytes, &artists)
 
-	templates.ExecuteTemplate(w, "artists.html", artists)
+	vars.Templates.ExecuteTemplate(w, "artists.html", artists)
 }
 
 /*
@@ -161,16 +154,16 @@ func MoreDetails(w http.ResponseWriter, r *http.Request) {
 
 	var artists []Artist
 
-	artistsBody, artistsBody_err := Fetch(artists_url)
+	artistsBody, artistsBody_err := Fetch(vars.Artists_url)
 	if artistsBody_err != nil {
 		log.Println("an error occured while fetching artists body: ", artistsBody_err)
-		templates.ExecuteTemplate(w, "errors.html", "Currently unable to display the requested information. Please try again later.")
+		vars.Templates.ExecuteTemplate(w, "errors.html", "Currently unable to display the requested information. Please try again later.")
 		return
 	}
 	artistUnmarshal_err := json.Unmarshal(artistsBody, &artists)
 	if artistUnmarshal_err != nil {
 		log.Println("an error occured while unmarshalling artists body: ", artistUnmarshal_err)
-		templates.ExecuteTemplate(w, "errors.html", "Currently unable to display the requested information. Please try again later.")
+		vars.Templates.ExecuteTemplate(w, "errors.html", "Currently unable to display the requested information. Please try again later.")
 		return
 	}
 
@@ -192,41 +185,42 @@ func MoreDetails(w http.ResponseWriter, r *http.Request) {
 	datesBody, datesBody_err := Fetch(artist.ConcertDates)
 	if datesBody_err != nil {
 		log.Println("an error occured while fetching artist's dates: ", datesBody_err)
-		templates.ExecuteTemplate(w, "errors.html", "Currently unable to display the requested information. Please try again later.")
+		vars.Templates.ExecuteTemplate(w, "errors.html", "Currently unable to display the requested information. Please try again later.")
 		return
 	}
 	datesUnmarshal_err := json.Unmarshal(datesBody, &artistDetails.Dates)
 	if datesUnmarshal_err != nil {
 		log.Println("an error occured while unmarshalling artist's dates: ", datesUnmarshal_err)
-		templates.ExecuteTemplate(w, "errors.html", "Currently unable to display the requested information. Please try again later.")
+		vars.Templates.ExecuteTemplate(w, "errors.html", "Currently unable to display the requested information. Please try again later.")
 		return
 	}
 
 	relationsBody, relationsBody_err := Fetch(artist.Relations)
 	if relationsBody_err != nil {
 		log.Println("an error occured while fetching artist's relations: ", relationsBody_err)
-		templates.ExecuteTemplate(w, "errors.html", "Currently unable to display the requested information. Please try again later.")
+		vars.Templates.ExecuteTemplate(w, "errors.html", "Currently unable to display the requested information. Please try again later.")
 		return
 	}
 	relationsUnmarshal_err := json.Unmarshal(relationsBody, &artistDetails.Relations)
 	if relationsUnmarshal_err != nil {
 		log.Println("an error occured while unmarshalling artist's relations: ", relationsUnmarshal_err)
-		templates.ExecuteTemplate(w, "errors.html", "Currently unable to display the requested information. Please try again later.")
+		vars.Templates.ExecuteTemplate(w, "errors.html", "Currently unable to display the requested information. Please try again later.")
 		return
 	}
 
 	locationsBody, locationsBody_err := Fetch(artist.Locations)
 	if locationsBody_err != nil {
 		log.Println("an error occured while fetching artist's locations: ", locationsBody_err)
-		templates.ExecuteTemplate(w, "errors.html", "Currently unable to display the requested information. Please try again later.")
+		vars.Templates.ExecuteTemplate(w, "errors.html", "Currently unable to display the requested information. Please try again later.")
 		return
 	}
 	locationsUnmarshal_err := json.Unmarshal(locationsBody, &artistDetails.Locations)
 	if locationsUnmarshal_err != nil {
 		log.Println("an error occured while unmarshalling artist's locations: ", locationsUnmarshal_err)
-		templates.ExecuteTemplate(w, "errors.html", "Currently unable to display the requested information. Please try again later.")
+		vars.Templates.ExecuteTemplate(w, "errors.html", "Currently unable to display the requested information. Please try again later.")
 		return
 	}
 
-	fmt.Println(artistDetails)
+	// fmt.Println(artistDetails)
+	vars.Templates.ExecuteTemplate(w, "artistDetails.html", artistDetails)
 }
