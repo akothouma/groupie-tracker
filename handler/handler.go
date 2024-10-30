@@ -26,6 +26,7 @@ func GetArtists(w http.ResponseWriter, r *http.Request) {
 
 	artists, err := get.GetArtistsData()
 	if err != nil {
+		w.WriteHeader(500)
 		vars.Templates.ExecuteTemplate(w, "errors.html", "Unable to fetch artists. Please try again later.")
 		return
 	}
@@ -47,6 +48,7 @@ func MoreDetails(w http.ResponseWriter, r *http.Request) {
 
 	artists, err := get.GetArtistsData()
 	if err != nil {
+		w.WriteHeader(500)
 		vars.Templates.ExecuteTemplate(w, "errors.html", "Unable to fetch artists. Please try again later.")
 		return
 	}
@@ -68,12 +70,14 @@ func MoreDetails(w http.ResponseWriter, r *http.Request) {
 
 	datesBody, datesBody_err := fetch.Fetch(artist.ConcertDates)
 	if datesBody_err != nil {
+		w.WriteHeader(500)
 		log.Println("an error occured while fetching artist's dates: ", datesBody_err)
 		vars.Templates.ExecuteTemplate(w, "errors.html", "Currently unable to display the requested information. Please try again later.")
 		return
 	}
 	datesUnmarshal_err := json.Unmarshal(datesBody, &artistDetails.Dates)
 	if datesUnmarshal_err != nil {
+		w.WriteHeader(500)
 		log.Println("an error occured while unmarshalling artist's dates: ", datesUnmarshal_err)
 		vars.Templates.ExecuteTemplate(w, "errors.html", "Currently unable to display the requested information. Please try again later.")
 		return
@@ -81,12 +85,14 @@ func MoreDetails(w http.ResponseWriter, r *http.Request) {
 
 	relationsBody, relationsBody_err := fetch.Fetch(artist.Relations)
 	if relationsBody_err != nil {
+		w.WriteHeader(500)
 		log.Println("an error occured while fetching artist's relations: ", relationsBody_err)
 		vars.Templates.ExecuteTemplate(w, "errors.html", "Currently unable to display the requested information. Please try again later.")
 		return
 	}
 	relationsUnmarshal_err := json.Unmarshal(relationsBody, &artistDetails.Relations)
 	if relationsUnmarshal_err != nil {
+		w.WriteHeader(500)
 		log.Println("an error occured while unmarshalling artist's relations: ", relationsUnmarshal_err)
 		vars.Templates.ExecuteTemplate(w, "errors.html", "Currently unable to display the requested information. Please try again later.")
 		return
@@ -94,12 +100,14 @@ func MoreDetails(w http.ResponseWriter, r *http.Request) {
 
 	locationsBody, locationsBody_err := fetch.Fetch(artist.Locations)
 	if locationsBody_err != nil {
+		w.WriteHeader(500)
 		log.Println("an error occured while fetching artist's locations: ", locationsBody_err)
 		vars.Templates.ExecuteTemplate(w, "errors.html", "Currently unable to display the requested information. Please try again later.")
 		return
 	}
 	locationsUnmarshal_err := json.Unmarshal(locationsBody, &artistDetails.Locations)
 	if locationsUnmarshal_err != nil {
+		w.WriteHeader(500)
 		log.Println("an error occured while unmarshalling artist's locations: ", locationsUnmarshal_err)
 		vars.Templates.ExecuteTemplate(w, "errors.html", "Currently unable to display the requested information. Please try again later.")
 		return

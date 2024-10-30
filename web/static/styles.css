@@ -154,3 +154,17 @@ body {
     margin-top: 10px;
     border-radius: 10px;
 }
+
+.error-body {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+}
+
+.error-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
