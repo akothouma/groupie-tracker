@@ -2,76 +2,14 @@ package handler
 
 import (
 	"encoding/json"
-	"fmt"
+	"groupie/fetch"
+	"groupie/get"
+	"groupie/models"
 	"groupie/vars"
-	"io"
 	"log"
 	"net/http"
 	"strconv"
 )
-
-// struct model for artist's details, fetched using json tags
-type Artist struct {
-	Id           int      `json:"id"`
-	Image        string   `json:"image"`
-	Name         string   `json:"name"`
-	Members      []string `json:"members"`
-	CreationDate int      `json:"creationDate"`
-	FirstAlbum   string   `json:"firstAlbum"`
-	Locations    string   `json:"locations"`
-	ConcertDates string   `json:"concertDates"`
-	Relations    string   `json:"relations"`
-}
-
-type ArtistDetails struct {
-	Artist    Artist
-	Locations LocationsData
-	Dates     ConcertDate
-	Relations Relation
-}
-
-type LocationsData struct {
-	Id        int      `json:"id"`
-	Locations []string `json:"locations"`
-	//Dates     string   `json:"dates"`
-}
-
-type LocationsResponse struct {
-	Index []LocationsData `json:"index"`
-}
-
-type ConcertDate struct {
-	Id    int      `json:"id"`
-	Dates []string `json:"dates"`
-}
-
-type Relation struct {
-	Id             int                 `json:"id"`
-	DatesLocations map[string][]string `json:"datesLocations"`
-}
-
-var template_dir = "./web/templates/"
-
-func Fetch(url string) ([]byte, error) {
-	body := []byte{}
-	var body_err error
-
-	response, artists_err := http.Get(url)
-	if artists_err != nil {
-		return nil, fmt.Errorf("error making a get request to the artists api endpoint: %s", artists_err)
-	}
-
-	defer response.Body.Close()
-
-	if response.StatusCode == http.StatusOK {
-		body, body_err = io.ReadAll(response.Body)
-		if body_err != nil {
-			return nil, fmt.Errorf("error reading response body: %s", body_err)
-		}
-	}
-
-	return body, nil
-}
 
 // GetArtists fetches all the artists from the api and stores them in an array of objects
 func GetArtists(w http.ResponseWriter, r *http.Request) {
@@ -85,15 +23,16 @@ func GetArtists(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	artists := []Artist{}
-
-	artists_bytes, artists_bytes_err := Fetch(vars.Artists_url)
-	if artists_bytes_err != nil {
+	artists, err := get.GetArtistsData()
+	if err != nil {
 		vars.Templates.ExecuteTemplate(w, "errors.html", "Unable to fetch artists. Please try again later.")
 		return
 	}
 
-	json.Unmarshal(artists_bytes, &artists)
+	if len(artists) == 0 {
+		vars.Templates.ExecuteTemplate(w, "errors.html", "No artists found.")
+		return
+	}
 
 	vars.Templates.ExecuteTemplate(w, "artists.html", artists)
 }
@@ -157,18 +96,9 @@ func MoreDetails(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	var artists []Artist
-
-	artistsBody, artistsBody_err := Fetch(vars.Artists_url)
-	if artistsBody_err != nil {
-		log.Println("an error occured while fetching artists body: ", artistsBody_err)
-		vars.Templates.ExecuteTemplate(w, "errors.html", "Currently unable to display the requested information. Please try again later.")
-		return
-	}
-	artistUnmarshal_err := json.Unmarshal(artistsBody, &artists)
-	if artistUnmarshal_err != nil {
-		log.Println("an error occured while unmarshalling artists body: ", artistUnmarshal_err)
-		vars.Templates.ExecuteTemplate(w, "errors.html", "Currently unable to display the requested information. Please try again later.")
+	artists, err := get.GetArtistsData()
+	if err != nil {
+		vars.Templates.ExecuteTemplate(w, "errors.html", "Unable to fetch artists. Please try again later.")
 		return
 	}
 
@@ -183,11 +113,11 @@ func MoreDetails(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	var artistDetails ArtistDetails
+	var artistDetails models.ArtistDetails
 	artist := artists[artistId-1]
 	artistDetails.Artist = artist
 
-	datesBody, datesBody_err := Fetch(artist.ConcertDates)
+	datesBody, datesBody_err := fetch.Fetch(artist.ConcertDates)
 	if datesBody_err != nil {
 		log.Println("an error occured while fetching artist's dates: ", datesBody_err)
 		vars.Templates.ExecuteTemplate(w, "errors.html", "Currently unable to display the requested information. Please try again later.")
@@ -200,7 +130,7 @@ func MoreDetails(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	relationsBody, relationsBody_err := Fetch(artist.Relations)
+	relationsBody, relationsBody_err := fetch.Fetch(artist.Relations)
 	if relationsBody_err != nil {
 		log.Println("an error occured while fetching artist's relations: ", relationsBody_err)
 		vars.Templates.ExecuteTemplate(w, "errors.html", "Currently unable to display the requested information. Please try again later.")
@@ -213,7 +143,7 @@ func MoreDetails(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	locationsBody, locationsBody_err := Fetch(artist.Locations)
+	locationsBody, locationsBody_err := fetch.Fetch(artist.Locations)
 	if locationsBody_err != nil {
 		log.Println("an error occured while fetching artist's locations: ", locationsBody_err)
 		vars.Templates.ExecuteTemplate(w, "errors.html", "Currently unable to display the requested information. Please try again later.")
