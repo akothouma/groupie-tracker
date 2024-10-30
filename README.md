@@ -11,7 +11,11 @@
 # Groupie-tracker
 
 Description
-This project includes functionalities to fetch and display data from the Groupie-tracker API. It provides endpoints to retrieve information about artists and their locations. The project utilizes Go's net/http package for making HTTP requests, encoding/json for JSON encoding and decoding, and html/template for rendering HTML templates.
+This project includes functionalities to fetch and display data from the Groupie-tracker API. 
+
+It provides endpoints to retrieve information about artists and their locations. 
+
+The project utilizes Go's net/http package for making HTTP requests, encoding/json for JSON encoding and decoding, and html/template for rendering HTML templates.
 
 # Installation
 
@@ -37,7 +41,7 @@ Make sure to have an active internet connection to fetch data from the Groupie-t
 
 1. Start the server by running the program.
 
-2. Open your web browser and navigate to http://localhost:8081 to view the list of artists.
+2. Open your web browser and navigate to http://localhost:8001 to view the list of artists.
 
 # Specificities
 
