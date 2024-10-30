@@ -84,6 +84,29 @@ body {
     font-weight: 900;
 }
 
+table {
+    border: 1px solid #a78295;
+    border-radius: 20px;
+    border-collapse: separate;
+    border-spacing: 0;
+    overflow: hidden;
+    width: 100%;
+}
+
+th, td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #a78295;
+}
+
+tr:last-child td {
+    border-bottom: none;
+}
+
+tr:nth-child(odd) {
+    background-color: #3f2e3e;
+}
+
 .accordion {
     border: 1px solid #a78295;
     border-radius: 20px;
@@ -110,8 +133,7 @@ body {
 }
 
 .desc {
-    height: 100%;
-    margin: 20px 0 0;
+    height: 0;
     overflow: hidden;
     transition: all 0.2s linear;
 }

@@ -65,7 +65,7 @@
                 </div>
             </div>
 
-            <div class="local">
+            <div class="desc">
                 {{range .Locations.Locations}}
                 <li>{{.}}</li>
                 {{end}}
@@ -116,18 +116,23 @@
             </div>
 
             <div class="desc">
-                <ul>
-                    {{range $location, $dates:= .Relations.DatesLocations}}
-                    <li>
-                        <p>{{$location}}</p>
-                        <ul>
-                            {{range $dates}}
-                            <ul>{{ . }}</ul>
+                <table>
+                    <tr>
+                        <th>Locations</th>
+                        <th>Dates</th>
+                    </tr>
+
+                    {{range $location, $date := .Relations.DatesLocations}}
+                    <tr>
+                        <td>{{$location}}</td>
+                        <td>
+                            {{range $date}}
+                            <li>{{.}}</li>
                             {{end}}
-                        </ul>
-                    </li>
+                        </td>
+                    </tr>
                     {{end}}
-                </ul>
+                </table>
             </div>
         </div>
     </div>
@@ -164,7 +169,7 @@
                 attribution: '© OpenStreetMap contributors'
             }).addTo(map);
 
-            var desc = document.querySelector(".local");
+            var desc = document.querySelector(".desc");
             var locationArray = desc.getElementsByTagName("li");
 
 
@@ -184,6 +189,7 @@
         document.addEventListener('DOMContentLoaded', initMap);
     </script>
 
+    <script src="/static/script.js"></script>
 </body>
 
 </html>
