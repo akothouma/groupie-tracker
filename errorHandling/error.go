@@ -5,10 +5,10 @@ import (
 )
 
 func RenderErr(w http.ResponseWriter, statusCode int, errMessage string) {
-	if w.WriteHeader==nil {
-		w.WriteHeader(statusCode)
-        // Avoid writing headers again
-    }
+	// if w.WriteHeader==nil {
+	// 	w.WriteHeader(statusCode)
+    //     // Avoid writing headers again
+    // }
 
 	// load the err template
 	tmpl, err := template.ParseFiles("templates/errors.html")
