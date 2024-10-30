@@ -48,7 +48,7 @@
             </div>
         </div>
         
-        <div class="accordion" onclick="toggleLocations()">
+        <div class="accordion" >
             <div class="title">
                 <p>Concert location(s)</p>
 
@@ -65,7 +65,7 @@
                 </div>
             </div>
 
-            <div class="desc">
+            <div class="local">
                 {{range .Locations.Locations}}
                 <li>{{.}}</li>
                 {{end}}
@@ -135,26 +135,17 @@
 
 
     <script>
-        function toggleLocations() {
-            var desc = document.querySelector(".desc");
-            var heading = document.querySelector(".accordion p")
-            var map = document.querySelector("#map")
-            // if (desc.style.display === "none") {
-            desc.style.display = "block";
-            map.style.display = "block";
-            // }
-
-        }
-        // function toggleheading() {
-        //     var desc = document.querySelector(".desc");
+        // function toggleLocations() {
+        //     var desc = document.querySelector(".local");
         //     var heading = document.querySelector(".accordion p")
         //     var map = document.querySelector("#map")
-        //     if (desc.style.display === "block") {
-        //         desc.style.display = "none";
-        //         heading.style.display = "block";
-        //         map.style.display = "none";
-        //     }
+        //     // if (desc.style.display === "none") {
+        //     desc.style.display = "block";
+        //     map.style.display = "block";
+        //     // }
+
         // }
+      
         async function getLatLng(location) {
             const apiKey = '73ca8020aa254210bf3912f5a6ed9503'; // Replace with your OpenCage API key
             const url = `https://api.opencagedata.com/geocode/v1/json?q=${encodeURIComponent(location)}&key=${apiKey}`;
@@ -177,26 +168,29 @@
         }
 
         async function initMap() {
-            var map = L.map('map').setView([39.8283, -98.5795], 4);
+            var map = L.map('map').setView([0, 0], 4);
 
-            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                maxZoom: 19,
-                attribution: '© OpenStreetMap contributors'
-            }).addTo(map);
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 19,
+            attribution: '© OpenStreetMap contributors'
+        }).addTo(map);
 
-            var desc = document.querySelector(".desc");
-            var locationArray = desc.getElementsByTagName("ul");
+        var desc = document.querySelector(".local");
+        var locationArray = desc.getElementsByTagName("li");
 
-            for (var i = 0; i < locationArray.length; i++) {
-                var location = locationArray[i].textContent.trim();
-                var latLng = await getLatLng(location);
-                if (latLng) {
-                    L.marker(latLng).addTo(map)
-                        .bindPopup(location)
-                        .openPopup();
-                }
+     
+
+        for (var i = 0; i < locationArray.length; i++) {
+            var location = locationArray[i].textContent.trim();
+            var latLng = await getLatLng(location);
+            if (latLng) {
+                L.marker(latLng).addTo(map)
+                    .bindPopup(location)
+                    .openPopup();
             }
         }
+    }
+        
 
         document.addEventListener('DOMContentLoaded', initMap);
     </script>

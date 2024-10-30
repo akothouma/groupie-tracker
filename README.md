@@ -1,16 +1,17 @@
-- [GroupieTrackers](#groupietrackers)
+- [Groupie-tracker](#groupie-tracker)
 - [Installation](#installation)
 - [Usage](#usage)
 - [Specificities](#specificities)
+- [Endpoints](#endpoints)
 - [Dependencies](#dependencies)
 - [Contributions](#contributions)
   - [License](#license)
   - [Authors](#authors)
 
-# GroupieTrackers
+# Groupie-tracker
 
 Description
-This project includes functionalities to fetch and display data from the GroupieTrackers API. It provides endpoints to retrieve information about artists and their locations. The project utilizes Go's net/http package for making HTTP requests, encoding/json for JSON encoding and decoding, and html/template for rendering HTML templates.
+This project includes functionalities to fetch and display data from the Groupie-tracker API. It provides endpoints to retrieve information about artists and their locations. The project utilizes Go's net/http package for making HTTP requests, encoding/json for JSON encoding and decoding, and html/template for rendering HTML templates.
 
 # Installation
 
@@ -19,9 +20,10 @@ This project includes functionalities to fetch and display data from the Groupie
 
 2. **Clone the repository**:
  ```bash
-   git clone https://learn.zone01kisumu.ke/git/cliffootieno/ascii-art-reverse
-   cd ascii-art-reverse
-```Make sure to have an active internet connection to fetch data from the GroupieTrackers API.
+   git clone https://learn.zone01kisumu.ke/git/cliffootieno/groupie-tracker
+   cd groupie-tracker
+```
+Make sure to have an active internet connection to fetch data from the Groupie-tracker API.
 
 
 3.**Run the program**: Use the following command to execute the program
@@ -40,10 +42,11 @@ This project includes functionalities to fetch and display data from the Groupie
 # Specificities
 
 Use the GetArtists endpoint to fetch and display information about artists.
-Use the ArtistDetails endpoint to retrieve and display locations associated with a specific artist ID.
-Endpoints
-/artists: Fetches and displays information about artists.
-/artistDetails?id={artist_id}: Retrieves and displays locations associated with a specific artist ID.
+Use the MoreDetails endpoint to retrieve and display concert dates,artist members,relations and locations associated with a specific artist ID.
+
+# Endpoints
+/: Fetches and displays information about artists.
+/artist Retrieves and displays more details associated with a specific artist ID.
 
 # Dependencies
 
