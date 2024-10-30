@@ -46,6 +46,11 @@ func MoreDetails(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	if r.URL.Path !="/artist"{
+		http.Error(w,"MethodNotAllowed",http.StatusMethodNotAllowed)
+		return
+	}
+
 	artists, err := get.GetArtistsData()
 	if err != nil {
 		w.WriteHeader(500)
