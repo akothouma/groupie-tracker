@@ -80,6 +80,11 @@ func GetArtists(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	if len(r.URL.Query()) > 0 || r.URL.Path != "/" {
+		http.Error(w, "Page Not Found", http.StatusNotFound)
+		return
+	}
+
 	artists := []Artist{}
 
 	artists_bytes, artists_bytes_err := Fetch(vars.Artists_url)
