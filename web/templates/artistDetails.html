@@ -14,8 +14,8 @@
     <div class="artists-heading">
         <a class="home-link" href="http://localhost:8001/">Back to home</a>
         <h1>more on {{ .Artist.Name }}</h1>
-    </div>   
-  
+    </div>
+
     <div class="artist_details_content">
         <img class="details-image" src="{{.Artist.Image}}" alt="{{ .Artist.Name }} Image" />
 
@@ -47,8 +47,8 @@
                 {{end}}
             </div>
         </div>
-        
-        <div class="accordion" >
+
+        <div class="accordion">
             <div class="title">
                 <p>Concert location(s)</p>
 
@@ -135,17 +135,6 @@
 
 
     <script>
-        // function toggleLocations() {
-        //     var desc = document.querySelector(".local");
-        //     var heading = document.querySelector(".accordion p")
-        //     var map = document.querySelector("#map")
-        //     // if (desc.style.display === "none") {
-        //     desc.style.display = "block";
-        //     map.style.display = "block";
-        //     // }
-
-        // }
-      
         async function getLatLng(location) {
             const apiKey = '73ca8020aa254210bf3912f5a6ed9503'; // Replace with your OpenCage API key
             const url = `https://api.opencagedata.com/geocode/v1/json?q=${encodeURIComponent(location)}&key=${apiKey}`;
@@ -170,27 +159,27 @@
         async function initMap() {
             var map = L.map('map').setView([0, 0], 4);
 
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            maxZoom: 19,
-            attribution: '© OpenStreetMap contributors'
-        }).addTo(map);
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                maxZoom: 19,
+                attribution: '© OpenStreetMap contributors'
+            }).addTo(map);
 
-        var desc = document.querySelector(".local");
-        var locationArray = desc.getElementsByTagName("li");
+            var desc = document.querySelector(".local");
+            var locationArray = desc.getElementsByTagName("li");
 
-     
 
-        for (var i = 0; i < locationArray.length; i++) {
-            var location = locationArray[i].textContent.trim();
-            var latLng = await getLatLng(location);
-            if (latLng) {
-                L.marker(latLng).addTo(map)
-                    .bindPopup(location)
-                    .openPopup();
+
+            for (var i = 0; i < locationArray.length; i++) {
+                var location = locationArray[i].textContent.trim();
+                var latLng = await getLatLng(location);
+                if (latLng) {
+                    L.marker(latLng).addTo(map)
+                        .bindPopup(location)
+                        .openPopup();
+                }
             }
         }
-    }
-        
+
 
         document.addEventListener('DOMContentLoaded', initMap);
     </script>

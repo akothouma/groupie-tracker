@@ -2,13 +2,14 @@ package handler
 
 import (
 	"encoding/json"
+	"log"
+	"net/http"
+	"strconv"
+
 	"groupie/fetch"
 	"groupie/get"
 	"groupie/models"
 	"groupie/vars"
-	"log"
-	"net/http"
-	"strconv"
 )
 
 // GetArtists fetches all the artists from the api and stores them in an array of objects
@@ -37,59 +38,7 @@ func GetArtists(w http.ResponseWriter, r *http.Request) {
 	vars.Templates.ExecuteTemplate(w, "artists.html", artists)
 }
 
-/*
-func GetLocations(w http.ResponseWriter, r *http.Request) {
-	if r.Method != "GET" {
-		http.Error(w, "Invalid request method", http.StatusMethodNotAllowed)
-		return
-	}
-
-	idStr := r.URL.Query().Get("id")
-	if idStr == "" {
-		http.Error(w, "Invalid id", http.StatusBadRequest)
-		return
-	}
-	var err error
-	var id int
-	id, err = strconv.Atoi(idStr)
-	if err != nil {
-		http.Error(w, "Invalid id", http.StatusBadRequest)
-		return
-	}
-
-	templates = template.New("")
-	templates, err = templates.ParseGlob(template_dir + "*.html")
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	locationsResponse := LocationsResponse{
-		Index: []LocationsData{},
-	}
-	fetchedLocations, location_bytes_err := Fetch(locations_url)
-	if location_bytes_err != nil {
-		templates.ExecuteTemplate(w, "errors.html", "Unable to fetch artist's locations. Please try again later.")
-		return
-	}
-
-	err = json.Unmarshal(fetchedLocations, &locationsResponse)
-	if err != nil {
-		log.Fatal(err)
-	}
-	var DisplayLocations struct {
-		Location []string
-	}
-	for _, location := range locationsResponse.Index {
-		if location.Id == id {
-			DisplayLocations.Location = location.Locations
-			break
-		}
-	}
-	fmt.Println(DisplayLocations)
-	templates.ExecuteTemplate(w, "artistDetails.html", DisplayLocations)
-}
-*/
-
+// MoreDetails serves an artist's details to a template based on the id provided in the url's query
 func MoreDetails(w http.ResponseWriter, r *http.Request) {
 	if r.Method != http.MethodGet {
 		http.Error(w, r.Method, http.StatusMethodNotAllowed)
@@ -156,6 +105,5 @@ func MoreDetails(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// fmt.Println(artistDetails)
 	vars.Templates.ExecuteTemplate(w, "artistDetails.html", artistDetails)
 }

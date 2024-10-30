@@ -1,6 +1,5 @@
 package models
 
-// struct model for artist's details, fetched using json tags
 type Artist struct {
 	Id           int      `json:"id"`
 	Image        string   `json:"image"`
@@ -23,7 +22,6 @@ type ArtistDetails struct {
 type LocationsData struct {
 	Id        int      `json:"id"`
 	Locations []string `json:"locations"`
-	//Dates     string   `json:"dates"`
 }
 
 type LocationsResponse struct {

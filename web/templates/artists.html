@@ -1,25 +1,27 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Artists</title>
-        <link rel="stylesheet" href="/static/styles.css" />
-    </head>
 
-    <body>
-        <h1 class="artists-heading">artists</h1>
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Artists</title>
+    <link rel="stylesheet" href="/static/styles.css" />
+</head>
 
-        <div class="artist-cards">
-            {{ range . }}
-            <a href="/artist?id={{.Id}}" class="artist-card">
-                <img src="{{.Image}}" alt="{{.Name}}" />
-                <div class="card-texts">
-                    <p class="card-name">{{ .Name }}</p>
-                    <p class="card-date">Started in: {{ .CreationDate }}</p>
-                </div>
-            </a>
-            {{ end }}
-        </div>
-    </body>
+<body>
+    <h1 class="artists-heading">artists</h1>
+
+    <div class="artist-cards">
+        {{ range . }}
+        <a href="/artist?id={{.Id}}" class="artist-card">
+            <img src="{{.Image}}" alt="{{.Name}}" />
+            <div class="card-texts">
+                <p class="card-name">{{ .Name }}</p>
+                <p class="card-date">Started in: {{ .CreationDate }}</p>
+            </div>
+        </a>
+        {{ end }}
+    </div>
+</body>
+
 </html>
