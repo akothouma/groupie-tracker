@@ -3,7 +3,6 @@ package main
 import (
 	"fmt"
 	"net/http"
-	"strings"
 
 	"groupie/handler"
 	"groupie/vars"
@@ -16,13 +15,7 @@ func main() {
 	http.HandleFunc("/artist", handler.MoreDetails)
 
 	http.HandleFunc("/static/", func(w http.ResponseWriter, r *http.Request) {
-		if strings.HasSuffix(r.URL.Path, "/") {
-			http.NotFound(w, r)
-			return
-		}
-
-		referer := r.Header.Get("Referer")
-		if referer == "" {
+		if r.URL.Path == "/static" {
 			http.NotFound(w, r)
 			return
 		}

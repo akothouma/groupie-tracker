@@ -12,15 +12,13 @@
 
         <div class="artist-cards">
             {{ range . }}
-            <div class="artist-card">
-                <a href="/artist?id={{.Id}}">
-                <img src="{{.Image}}" alt="{{.Name}}"  />
-                </a>
+            <a href="/artist?id={{.Id}}" class="artist-card">
+                <img src="{{.Image}}" alt="{{.Name}}" />
                 <div class="card-texts">
                     <p class="card-name">{{ .Name }}</p>
                     <p class="card-date">Started in: {{ .CreationDate }}</p>
                 </div>
-            </div>
+            </a>
             {{ end }}
         </div>
     </body>
