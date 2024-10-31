@@ -1,7 +1,7 @@
 const accordion = document.querySelectorAll(".accordion");
 
 accordion.forEach((item) => {
-  item.addEventListener("click", () => {
+  item.querySelector(".title").addEventListener("click", () => {
     item.classList.toggle("open_desc");
 
     let desc = item.querySelector(".desc");
