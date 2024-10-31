@@ -12,31 +12,31 @@
 # Groupie-tracker
 
 ## Description
-- This project includes functionalities to fetch and display data from the Groupie-tracker API. 
 
-- It provides endpoints to retrieve information about artists and their locations. 
+- This project includes functionalities to fetch and display data from the Groupie-tracker API.
+
+- It provides endpoints to retrieve information about artists and their locations.
 
 - The project utilizes Go's net/http package for making HTTP requests, encoding/json for JSON encoding and decoding, and html/template for rendering HTML templates.
 
 ## Installation
 
-
 1. **Install Go**: Ensure that you have Go installed on your machine. You can download it from [golang.org](https://golang.org/dl/).
 
 2. **Clone the repository**:
- ```go
-   git clone https://learn.zone01kisumu.ke/git/cliffootieno/groupie-tracker
-   cd groupie-tracker
-```
-Make sure to have an active internet connection to fetch data from the Groupie-tracker API.
 
+```go
+  git clone https://learn.zone01kisumu.ke/git/cliffootieno/groupie-tracker
+  cd groupie-tracker
+```
+
+Make sure to have an active internet connection to fetch data from the Groupie-tracker API.
 
 3.**Run the program**: Use the following command to execute the program
 
 ```go
-    go run . 
+    go run .
 ```
-
 
 ## Usage
 
@@ -51,17 +51,18 @@ Make sure to have an active internet connection to fetch data from the Groupie-t
 - Use the MoreDetails endpoint to retrieve and display concert dates,artist members,relations and locations associated with a specific artist ID.
 
 ## Endpoints
+
 - / : Fetches and displays information about artists.
 
 - /artist Retrieves and displays more details associated with a specific artist ID.
 
 ## Dependencies
 
-* net/http package for making HTTP requests
+- net/http package for making HTTP requests
 
-- encoding/json package for JSON encoding and decoding
+* encoding/json package for JSON encoding and decoding
 
-- html/template package for rendering HTML templates
+* html/template package for rendering HTML templates
 
 # Contributions
 

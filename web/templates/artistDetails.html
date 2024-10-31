@@ -1,201 +1,291 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{{.Artist.Name}} Details</title>
-    <link rel="stylesheet" href="/static/styles.css">
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <link rel="stylesheet" href="/static/styles.css" />
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+    />
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
-</head>
+  </head>
 
-<body>
+  <body>
     <div class="artists-heading">
-        <a class="home-link" href="http://localhost:8001/">Back to home</a>
-        <h1>more on {{ .Artist.Name }}</h1>
+      <a class="home-link" href="http://localhost:8001/">Back to home</a>
+      <h1>more on {{ .Artist.Name }}</h1>
     </div>
 
     <div class="artist_details_content">
-        <img class="details-image" src="{{.Artist.Image}}" alt="{{ .Artist.Name }} Image" />
+      <img
+        class="details-image"
+        src="{{.Artist.Image}}"
+        alt="{{ .Artist.Name }} Image"
+      />
 
-        <div class="details_dates">
-            <p>Started in: <span class="date">{{ .Artist.CreationDate }}</span></p>
-            <p>First album made on: <span class="date">{{ .Artist.FirstAlbum }}</span></p>
+      <div class="details_dates">
+        <p>Started in: <span class="date">{{ .Artist.CreationDate }}</span></p>
+        <p>
+          First album made on:
+          <span class="date">{{ .Artist.FirstAlbum }}</span>
+        </p>
+      </div>
+
+      <div class="accordion">
+        <div class="title">
+          <p>Band Member(s)</p>
+
+          <div class="icons">
+            <svg
+              class="plus"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke-width="1.5"
+              stroke="currentColor"
+              class="size-6"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M12 4.5v15m7.5-7.5h-15"
+              />
+            </svg>
+
+            <svg
+              class="minus"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke-width="1.5"
+              stroke="currentColor"
+              class="size-6"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M5 12h14"
+              />
+            </svg>
+          </div>
         </div>
 
-        <div class="accordion">
-            <div class="title">
-                <p>Band Member(s)</p>
+        <div class="desc">
+          {{range .Artist.Members}}
+          <li>{{.}}</li>
+          {{end}}
+        </div>
+      </div>
 
-                <div class="icons">
-                    <svg class="plus" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                        stroke-width="1.5" stroke="currentColor" class="size-6">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
-                    </svg>
+      <div class="accordion">
+        <div class="title">
+          <p>Concert location(s)</p>
 
-                    <svg class="minus" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                        stroke-width="1.5" stroke="currentColor" class="size-6">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M5 12h14" />
-                    </svg>
-                </div>
-            </div>
+          <div class="icons">
+            <svg
+              class="plus"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke-width="1.5"
+              stroke="currentColor"
+              class="size-6"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M12 4.5v15m7.5-7.5h-15"
+              />
+            </svg>
 
-            <div class="desc">
-                {{range .Artist.Members}}
+            <svg
+              class="minus"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke-width="1.5"
+              stroke="currentColor"
+              class="size-6"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M5 12h14"
+              />
+            </svg>
+          </div>
+        </div>
+        <div class="desc">
+          <div class="local">
+            {{range .Locations.Locations}}
+            <ul>
+              {{.}}
+            </ul>
+            {{end}}
+          </div>
+          <div id="map"></div>
+        </div>
+      </div>
+
+      <div class="accordion">
+        <div class="title">
+          <p>Concerts date(s)</p>
+
+          <div class="icons">
+            <svg
+              class="plus"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke-width="1.5"
+              stroke="currentColor"
+              class="size-6"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M12 4.5v15m7.5-7.5h-15"
+              />
+            </svg>
+
+            <svg
+              class="minus"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke-width="1.5"
+              stroke="currentColor"
+              class="size-6"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M5 12h14"
+              />
+            </svg>
+          </div>
+        </div>
+
+        <div class="desc">
+          {{range .Dates.Dates}}
+          <li>{{.}}</li>
+          {{end}}
+        </div>
+      </div>
+
+      <div class="accordion">
+        <div class="title">
+          <p>Concerts relation(s)</p>
+
+          <div class="icons">
+            <svg
+              class="plus"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke-width="1.5"
+              stroke="currentColor"
+              class="size-6"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M12 4.5v15m7.5-7.5h-15"
+              />
+            </svg>
+
+            <svg
+              class="minus"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke-width="1.5"
+              stroke="currentColor"
+              class="size-6"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M5 12h14"
+              />
+            </svg>
+          </div>
+        </div>
+
+        <div class="desc">
+          <table>
+            <tr>
+              <th>Locations</th>
+              <th>Dates</th>
+            </tr>
+
+            {{range $location, $date := .Relations.DatesLocations}}
+            <tr>
+              <td>{{$location}}</td>
+              <td>
+                {{range $date}}
                 <li>{{.}}</li>
                 {{end}}
-            </div>
+              </td>
+            </tr>
+            {{end}}
+          </table>
         </div>
-
-        <div class="accordion">
-            <div class="title">
-                <p>Concert location(s)</p>
-
-                <div class="icons">
-                    <svg class="plus" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                        stroke-width="1.5" stroke="currentColor" class="size-6">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
-                    </svg>
-
-                    <svg class="minus" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                        stroke-width="1.5" stroke="currentColor" class="size-6">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M5 12h14" />
-                    </svg>
-                </div>
-            </div>
-            <div class="desc">
-                <div class="local">
-
-                    {{range .Locations.Locations}}
-                    <ul>{{.}}</ul>
-                    {{end}}
-
-                </div>
-                    <div id="map"></div>
-            </div>
-        </div>
-
-        <div class="accordion">
-            <div class="title">
-                <p>Concerts date(s)</p>
-
-                <div class="icons">
-                    <svg class="plus" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                        stroke-width="1.5" stroke="currentColor" class="size-6">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
-                    </svg>
-
-                    <svg class="minus" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                        stroke-width="1.5" stroke="currentColor" class="size-6">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M5 12h14" />
-                    </svg>
-                </div>
-            </div>
-
-            <div class="desc">
-                {{range .Dates.Dates}}
-                <li>{{.}}</li>
-                {{end}}
-            </div>
-        </div>
-
-        <div class="accordion">
-            <div class="title">
-                <p>Concerts relation(s)</p>
-
-                <div class="icons">
-                    <svg class="plus" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                        stroke-width="1.5" stroke="currentColor" class="size-6">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
-                    </svg>
-
-                    <svg class="minus" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                        stroke-width="1.5" stroke="currentColor" class="size-6">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M5 12h14" />
-                    </svg>
-                </div>
-            </div>
-
-            <div class="desc">
-                <table>
-                    <tr>
-                        <th>Locations</th>
-                        <th>Dates</th>
-                    </tr>
-
-                    {{range $location, $date := .Relations.DatesLocations}}
-                    <tr>
-                        <td>{{$location}}</td>
-                        <td>
-                            {{range $date}}
-                            <li>{{.}}</li>
-                            {{end}}
-                        </td>
-                    </tr>
-                    {{end}}
-                </table>
-
-            </div>
-        </div>
+      </div>
     </div>
 
-
-
     <script>
-        async function getLatLng(location) {
-            const apiKey = '73ca8020aa254210bf3912f5a6ed9503'; // Replace with your OpenCage API key
-            const url = `https://api.opencagedata.com/geocode/v1/json?q=${encodeURIComponent(location)}&key=${apiKey}`;
+      async function getLatLng(location) {
+        const apiKey = "73ca8020aa254210bf3912f5a6ed9503"; // Replace with your OpenCage API key
+        const url = `https://api.opencagedata.com/geocode/v1/json?q=${encodeURIComponent(
+          location
+        )}&key=${apiKey}`;
 
-            try {
-                const response = await fetch(url);
-                const data = await response.json();
+        try {
+          const response = await fetch(url);
+          const data = await response.json();
 
-                if (data.results && data.results.length > 0) {
-                    const { lat, lng } = data.results[0].geometry;
-                    return [lat, lng];
-                } else {
-                    console.error('No results found for location:', location);
-                    return null;
-                }
-            } catch (error) {
-                console.error('Error fetching geocoding data:', error);
-                return null;
-            }
+          if (data.results && data.results.length > 0) {
+            const { lat, lng } = data.results[0].geometry;
+            return [lat, lng];
+          } else {
+            console.error("No results found for location:", location);
+            return null;
+          }
+        } catch (error) {
+          console.error("Error fetching geocoding data:", error);
+          return null;
         }
+      }
 
-        async function initMap() {
-            var map = L.map('map').setView([0, 0], 4);
+      async function initMap() {
+        var map = L.map("map").setView([0, 0], 4);
 
-            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                maxZoom: 19,
-                attribution: '© OpenStreetMap contributors'
-            }).addTo(map);
+        L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+          maxZoom: 19,
+          attribution: "© OpenStreetMap contributors",
+        }).addTo(map);
 
-            var desc = document.querySelector(".local");
-            var locationArray = desc.getElementsByTagName("ul");
+        var desc = document.querySelector(".local");
+        var locationArray = desc.getElementsByTagName("ul");
 
-
-
-            for (var i = 0; i < locationArray.length; i++) {
-                console.log(i)
-                var location = locationArray[i].textContent.trim();
-                location = location.replace(/-/g, ' '); // Replace underscores with spaces in the URL
-                location = decodeURIComponent(location.replace(/_/g, ' '));
-                var latLng = await getLatLng(location);
-                if (latLng) {
-                    L.marker(latLng).addTo(map)
-                        .bindPopup(location)
-                        .openPopup();
-                }
-            }
+        for (var i = 0; i < locationArray.length; i++) {
+          console.log(i);
+          var location = locationArray[i].textContent.trim();
+          location = location.replace(/-/g, " "); // Replace underscores with spaces in the URL
+          location = decodeURIComponent(location.replace(/_/g, " "));
+          var latLng = await getLatLng(location);
+          if (latLng) {
+            L.marker(latLng).addTo(map).bindPopup(location).openPopup();
+          }
         }
+      }
 
-
-        document.addEventListener('DOMContentLoaded', initMap);
+      document.addEventListener("DOMContentLoaded", initMap);
     </script>
 
     <script src="/static/script.js"></script>
-</body>
-
+  </body>
 </html>
