@@ -59,7 +59,7 @@ func MoreDetails(w http.ResponseWriter, r *http.Request) {
 	idString := r.URL.Query().Get("id")
 	artistId, artistId_err := strconv.Atoi(idString)
 	if artistId_err != nil || idString == "" {
-		http.Error(w, "Invalid id", http.StatusBadRequest)
+		errorhandling.RenderErr(w, http.StatusBadRequest, "Invalid id")
 		return
 	}
 	if artistId < 1 || artistId > len(artists)-1 {
@@ -73,7 +73,6 @@ func MoreDetails(w http.ResponseWriter, r *http.Request) {
 
 	datesBody, datesBody_err := fetch.Fetch(artist.ConcertDates)
 	if datesBody_err != nil {
-		//log.Println("an error occured while fetching artist's dates: ", datesBody_err)
 		errorhandling.RenderErr(w, http.StatusInternalServerError, "Currently unable to display the requested information. Please try again later.")
 		return
 	}
