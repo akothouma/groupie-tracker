@@ -6,8 +6,8 @@ import (
 )
 
 func RenderErr(w http.ResponseWriter, statusCode int, errMessage string) {
-	 	w.WriteHeader(statusCode)
-	
+	w.WriteHeader(statusCode)
+
 	// data to pass to the error template
 
 	data := struct {
@@ -19,5 +19,5 @@ func RenderErr(w http.ResponseWriter, statusCode int, errMessage string) {
 	}
 
 	// render the page
-	vars.Templates.ExecuteTemplate(w,"errors.html",&data)
+	vars.Templates.ExecuteTemplate(w, "errors.html", &data)
 }
