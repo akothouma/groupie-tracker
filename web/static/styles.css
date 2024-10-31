@@ -190,3 +190,7 @@ tr:nth-child(odd) {
     justify-content: center;
     flex-direction: column;
 }
+
+.leaflet-popup-content {
+    color: black;
+}
