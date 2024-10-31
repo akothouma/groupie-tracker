@@ -64,14 +64,15 @@
                     </svg>
                 </div>
             </div>
+            <div class="desc">
+                <div class="local">
 
-            <div class="local">
+                    {{range .Locations.Locations}}
+                    <ul>{{.}}</ul>
+                    {{end}}
 
-                {{range .Locations.Locations}}
-                <ul>{{.}}</ul>
-                {{end}}
-
-                <div id="map"></div>
+                </div>
+                    <div id="map"></div>
             </div>
         </div>
 
