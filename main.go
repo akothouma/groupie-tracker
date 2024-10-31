@@ -20,7 +20,7 @@ func main() {
 	http.HandleFunc("/artist", handler.MoreDetails)
 
 	http.HandleFunc("/static/", func(w http.ResponseWriter, r *http.Request) {
-		if r.URL.Path == "/static" {
+		if r.URL.Path == "/static/" {
 			http.NotFound(w, r)
 			return
 		}
