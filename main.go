@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"log"
 	"net/http"
 
 	"groupie/handler"
@@ -9,7 +10,11 @@ import (
 )
 
 func main() {
-	vars.Templates, _ = vars.Templates.ParseGlob(vars.Template_dir + "*.html")
+	var err error
+	vars.Templates, err = vars.Templates.ParseGlob(vars.Template_dir + "*.html")
+	if err != nil {
+		log.Fatal(err)
+	}
 
 	http.HandleFunc("/", handler.GetArtists)
 	http.HandleFunc("/artist", handler.MoreDetails)
