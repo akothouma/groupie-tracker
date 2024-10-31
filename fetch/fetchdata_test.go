@@ -41,7 +41,7 @@ func TestFetch(t *testing.T) {
 	}
 
 	// test for an invalid URL
-	body, err = Fetch("invalid-url")
+	_, err = Fetch("invalid-url")
 	if err == nil {
 		t.Error("Expected error for invalid URL, got nil")
 	}
