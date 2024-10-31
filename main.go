@@ -24,6 +24,6 @@ func main() {
 		http.StripPrefix("/static/", fs).ServeHTTP(w, r)
 	})
 
-	fmt.Println("Listening on :8001...")
+	fmt.Println("Listening on http://localhost:8001/")
 	http.ListenAndServe(":8001", nil)
 }

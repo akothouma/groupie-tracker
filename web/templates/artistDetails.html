@@ -65,9 +65,10 @@
                 </div>
             </div>
 
-            <div class="desc">
+            <div class="local">
+                
                 {{range .Locations.Locations}}
-                <li>{{.}}</li>
+                <ul>{{.}}</ul>
                 {{end}}
 
                 <div id="map"></div>
@@ -133,6 +134,7 @@
                     </tr>
                     {{end}}
                 </table>
+            
             </div>
         </div>
     </div>
@@ -169,13 +171,16 @@
                 attribution: '© OpenStreetMap contributors'
             }).addTo(map);
 
-            var desc = document.querySelector(".desc");
-            var locationArray = desc.getElementsByTagName("li");
+            var desc = document.querySelector(".local");
+            var locationArray = desc.getElementsByTagName("ul");
 
 
 
             for (var i = 0; i < locationArray.length; i++) {
+                console.log(i)
                 var location = locationArray[i].textContent.trim();
+                location = location.replace(/-/g,' '); // Replace underscores with spaces in the URL
+                location = decodeURIComponent(location.replace(/_/g, ' '));
                 var latLng = await getLatLng(location);
                 if (latLng) {
                     L.marker(latLng).addTo(map)
