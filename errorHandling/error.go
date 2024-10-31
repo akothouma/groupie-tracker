@@ -1,8 +1,9 @@
 package errorhandling
 
 import (
-	"groupie/vars"
 	"net/http"
+
+	"groupie/vars"
 )
 
 func RenderErr(w http.ResponseWriter, statusCode int, errMessage string) {
