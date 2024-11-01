@@ -3,6 +3,7 @@
   padding: 0;
   box-sizing: border-box;
   color: #efe1d1;
+  font-size: 20px;
 }
 
 body {
@@ -60,6 +61,8 @@ body {
   border: 1px solid #a78295;
   border-radius: 20px;
   margin: 20px 0;
+  max-width: 200px;
+  max-height: 200px;
 }
 
 .details_dates {
@@ -113,7 +116,8 @@ tr:nth-child(odd) {
   border-radius: 20px;
   padding: 12px 20px;
   margin-bottom: 20px;
-  min-width: 50%;
+  min-width: 80%;
+  max-width: 90%;
   cursor: pointer;
 }
 
@@ -222,4 +226,8 @@ tr:nth-child(odd) {
 
 .leaflet-popup-content {
   color: black;
+}
+
+.details-back-link {
+  margin-top: 20px;
 }
