@@ -11,7 +11,7 @@ import (
 
 // handles HTTP errors by writing the specified status code and error message
 // to the response writer, and then rendering an error template with the provided data.
-func RenderErr(w http.ResponseWriter, statusCode int, header string, errMessage string) {
+func RenderErr(w http.ResponseWriter, statusCode int, headerMessage string, errMessage string) {
 	if _, err := os.Stat(vars.Template_dir + "errors.html"); os.IsNotExist(err) {
 		http.Error(w, "Currently unable to display this page. Please try again later.", http.StatusInternalServerError)
 		return
@@ -22,11 +22,11 @@ func RenderErr(w http.ResponseWriter, statusCode int, header string, errMessage 
 	// data to pass to the error template
 	data := struct {
 		StatusCode int
-		Header     string
+		HeaderMessage     string
 		Message    string
 	}{
 		StatusCode: statusCode,
-		Header:     header,
+		HeaderMessage:     headerMessage,
 		Message:    errMessage,
 	}
 

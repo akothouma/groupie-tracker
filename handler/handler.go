@@ -74,7 +74,7 @@ func MoreDetails(w http.ResponseWriter, r *http.Request) {
 	idString := r.URL.Query().Get("id")
 	artistId, artistId_err := strconv.Atoi(idString)
 	if artistId_err != nil || idString == "" {
-		errorhandling.RenderErr(w, http.StatusBadRequest, "Whoa There! That's Bad", "The ID is invalid.")
+		errorhandling.RenderErr(w, http.StatusBadRequest, "Bad Request", "Whoa There! That ID is invalid.")
 		return
 	}
 	if artistId < 1 || artistId > len(artists)-1 {

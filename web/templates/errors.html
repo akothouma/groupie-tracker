@@ -11,7 +11,7 @@
 <body>
   <div class="error-container">
     <div class="error-content">
-      <h1>{{.StatusCode}} {{.Header}}</h1>
+      <h1>{{.StatusCode}} {{.HeaderMessage}}</h1>
       {{if eq .StatusCode 503}}
 
       <div class="net-suggestions">
