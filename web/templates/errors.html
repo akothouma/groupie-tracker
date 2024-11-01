@@ -13,7 +13,9 @@
     <div class="error-content">
       <h1>Oopsie, got a {{.StatusCode}}</h1>
       <p>{{.Message}}</p>
+      {{if eq .StatusCode 404}}
       <a href="/" class="back-link">Take me home</a>
+      {{end}}
     </div>
   </div>
 </body>

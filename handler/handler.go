@@ -21,6 +21,11 @@ func GetArtists(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	if !errorhandling.ClientConnected() {
+		errorhandling.RenderErr(w, http.StatusServiceUnavailable, "Check your internet connection")
+		return
+	}
+
 	if len(r.URL.Query()) > 0 || r.URL.Path != "/" {
 		errorhandling.RenderErr(w, http.StatusNotFound, "Page Not Found")
 		return
@@ -47,6 +52,11 @@ func GetArtists(w http.ResponseWriter, r *http.Request) {
 func MoreDetails(w http.ResponseWriter, r *http.Request) {
 	if r.Method != http.MethodGet {
 		errorhandling.RenderErr(w, http.StatusMethodNotAllowed, "Method Not Allowed")
+		return
+	}
+
+	if !errorhandling.ClientConnected() {
+		errorhandling.RenderErr(w, http.StatusServiceUnavailable, "Check your internet connection")
 		return
 	}
 

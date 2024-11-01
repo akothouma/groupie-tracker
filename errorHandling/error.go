@@ -1,7 +1,9 @@
 package errorhandling
 
 import (
+	"net"
 	"net/http"
+	"time"
 
 	"groupie/vars"
 )
@@ -25,4 +27,10 @@ func RenderErr(w http.ResponseWriter, statusCode int, errMessage string) {
 	if errorsTmplErr != nil {
 		http.Error(w, "Currently unable to display this page. Please try again later.", http.StatusInternalServerError)
 	}
+}
+
+func ClientConnected() bool {
+    timeout := 7 * time.Second
+    _, err := net.DialTimeout("tcp", "8.8.8.8:53", timeout)
+    return err == nil
 }
