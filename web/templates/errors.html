@@ -1,71 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <link
-      rel="shortcut icon"
-      href="../static/favicon.ico"
-      type="image/x-icon"
-    />
-    <link rel="stylesheet" href="../static/othertemplates.css" />
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Error {{.StatusCode}}</title>
+  <link rel="stylesheet" href="/static/styles.css" />
+</head>
 
-    <title>Error {{.StatusCode}}</title>
-    <style>
-      body {
-        font-family: Arial, sans-serif;
-        text-align: center;
-        padding: 50px;
-        background-color: #331d2c;
-      }
-
-        .error-container {
-            background-color: white;
-            padding: 20px;
-            border-radius: 5px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            display: inline-block;
-
-        }
-
-
-        p {
-            font-size: 18px;
-            color: #efe1d1;
-
-        }
-        .center{
-            position: absolute;
-            top: 50%;
-            left: 50%;
-        }
-
-        a.back-link {
-            display: inline-block;
-            text-decoration: none;
-            color: #efe1d1;
-            font-weight: bold;
-            padding: 10px 15px;
-            border: 3px solid#efe1d1;
-            border-radius: 5px;
-            transition: background-color 0.3s, color 0.3s, border-color 0.3s;
-        }
-
-      a.back-link:hover,
-      a.back-link:focus {
-        color: #ffffff;
-        background-color: rgb(92, 89, 89);
-        border-color: rgb(83, 50, 9);
-      }
-    </style>
-  </head>
-
-  <body>
-    <div class="center">
-        <p>{{.Message}}</p>
-        <p><a href="/" class="back-link">Back</a></p>
-
+<body>
+  <div class="error-container">
+    <div class="error-content">
+      <h1>Oopsie, got a {{.StatusCode}}</h1>
+      <p>{{.Message}}</p>
+      <a href="/" class="back-link">Take me home</a>
     </div>
-  </body>
+  </div>
+</body>
+
 </html>

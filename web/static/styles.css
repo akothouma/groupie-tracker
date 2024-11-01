@@ -178,7 +178,7 @@ tr:nth-child(odd) {
   border-radius: 10px;
 }
 
-.error-body {
+.error-container {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -190,6 +190,21 @@ tr:nth-child(odd) {
   align-items: center;
   justify-content: center;
   flex-direction: column;
+}
+
+.error-content > :not(:last-child) {
+  margin-bottom: 20px;
+}
+
+.back-link {
+  border: 1px solid #a78295;
+  text-decoration: none;
+  border-radius: 20px;
+  padding: 10px;
+}
+
+.back-link:hover {
+  background-color: #3f2e3e;
 }
 
 .leaflet-popup-content {
