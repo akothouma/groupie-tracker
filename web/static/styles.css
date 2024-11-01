@@ -207,6 +207,19 @@ tr:nth-child(odd) {
   background-color: #3f2e3e;
 }
 
+.net-suggestions {
+  width: 50%;
+}
+
+.net-suggestions li {
+  margin-left: 50px;
+  list-style-position: outside;
+}
+
+.net-suggestions p {
+  margin-bottom: 20px;
+}
+
 .leaflet-popup-content {
   color: black;
 }

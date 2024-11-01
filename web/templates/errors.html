@@ -14,10 +14,15 @@
       <h1>{{.StatusCode}} {{.Header}}</h1>
       {{if eq .StatusCode 503}}
 
-      <p>If the address is correct, check the following suggestions:</p>
-      <li>Try again later. The site could be temporarily unavailable or too busy.</li>
-      <li>{{.Message}}</li>
-      <li>If your computer or network is protected by a firewall or proxy, make sure your browser is permitted to access the web.</li>
+      <div class="net-suggestions">
+        <p>If the address is correct, check the following suggestions:</p>
+        <ul>
+          <li>Try again later. The site could be temporarily unavailable or too busy.</li>
+          <li>{{.Message}}</li>
+          <li>If your computer or network is protected by a firewall or proxy, make sure your browser is permitted to
+            access the web.</li>
+        </ul>
+      </div>
 
       {{else}}
 
