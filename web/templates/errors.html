@@ -11,8 +11,20 @@
 <body>
   <div class="error-container">
     <div class="error-content">
-      <h1>Oopsie, got a {{.StatusCode}}</h1>
+      <h1>{{.StatusCode}} {{.Header}}</h1>
+      {{if eq .StatusCode 503}}
+
+      <p>If the address is correct, check the following suggestions:</p>
+      <li>Try again later. The site could be temporarily unavailable or too busy.</li>
+      <li>{{.Message}}</li>
+      <li>If your computer or network is protected by a firewall or proxy, make sure your browser is permitted to access the web.</li>
+
+      {{else}}
+
       <p>{{.Message}}</p>
+
+      {{end}}
+
       {{if eq .StatusCode 404}}
       <a href="/" class="back-link">Take me home</a>
       {{end}}
