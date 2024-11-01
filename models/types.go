@@ -1,5 +1,6 @@
 package models
 
+// Structs to hold the data returned by the API
 type Artist struct {
 	Id           int      `json:"id"`
 	Image        string   `json:"image"`

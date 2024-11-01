@@ -6,7 +6,7 @@ import (
 	"net/http"
 )
 
-// FetchData takes a url and returns its response body, and an error if there's any
+// Fetch retrieves the response body from the specified URL.
 func Fetch(url string) ([]byte, error) {
 	body := []byte{}
 	var body_err error

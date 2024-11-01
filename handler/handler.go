@@ -12,7 +12,9 @@ import (
 	"groupie/vars"
 )
 
-// GetArtists fetches all the artists from the api and stores them in an array of objects
+// GetArtists handles HTTP GET requests to fetch and display a list of artists.
+// It validates the request method and URL path, fetches artist data, and renders
+// the artists list to an HTML template.
 func GetArtists(w http.ResponseWriter, r *http.Request) {
 	if r.Method != "GET" {
 		errorhandling.RenderErr(w, http.StatusMethodNotAllowed, "Method Not Allowed")

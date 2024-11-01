@@ -9,7 +9,9 @@ import (
 	"groupie/vars"
 )
 
-// GetArtistsData returns an array of all the fetched artists from the api
+// GetArtistsData fetches and returns a list of artists from a specified API endpoint.
+// It retrieves the data in JSON format and unmarshals it into a slice of Artist structs.
+// Returns: []models.Artist: A slice containing all the artists fetched from the API.
 func GetArtistsData() ([]models.Artist, error) {
 	artists := []models.Artist{}
 
@@ -20,7 +22,7 @@ func GetArtistsData() ([]models.Artist, error) {
 
 	unmarshal_err := json.Unmarshal(artists_bytes, &artists)
 	if unmarshal_err != nil {
-		return nil, fmt.Errorf("Error unmarshaling JSON: %v", unmarshal_err)
+		return nil, fmt.Errorf("error unmarshaling JSON: %v", unmarshal_err)
 	}
 
 	return artists, nil
