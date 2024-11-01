@@ -2,11 +2,10 @@ package main
 
 import (
 	"fmt"
-	"log"
-	"net/http"
-
 	"groupie/handler"
 	"groupie/vars"
+	"log"
+	"net/http"
 )
 
 func main() {
