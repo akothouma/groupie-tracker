@@ -37,7 +37,10 @@ func GetArtists(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	vars.Templates.ExecuteTemplate(w, "artists.html", artists)
+	artistsTmplErr := vars.Templates.ExecuteTemplate(w, "artists.html", artists)
+	if artistsTmplErr != nil {
+		errorhandling.RenderErr(w, http.StatusInternalServerError, "Currently unable to display this page. Please try again later.")
+	}
 }
 
 // MoreDetails serves an artist's details to a template based on the id provided in the url's query
@@ -106,5 +109,8 @@ func MoreDetails(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	vars.Templates.ExecuteTemplate(w, "artistDetails.html", artistDetails)
+	artistDetailsTmplErr := vars.Templates.ExecuteTemplate(w, "artistDetails.html", artistDetails)
+	if artistDetailsTmplErr != nil {
+		errorhandling.RenderErr(w, http.StatusInternalServerError, "Currently unable to display this page. Please try again later.")
+	}
 }

@@ -21,5 +21,8 @@ func RenderErr(w http.ResponseWriter, statusCode int, errMessage string) {
 	}
 
 	// render the page
-	vars.Templates.ExecuteTemplate(w, "errors.html", &data)
+	errorsTmplErr := vars.Templates.ExecuteTemplate(w, "errors.html", &data)
+	if errorsTmplErr != nil {
+		http.Error(w, "Currently unable to display this page. Please try again later.", http.StatusInternalServerError)
+	}
 }
